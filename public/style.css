@@ -54,6 +54,19 @@ div.logotext
     -moz-user-select: none;
 }
 
+div.logotext
+{
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    color: #F00;
+    font-size: 22;
+    font-weight: bold;
+    cursor: default;
+    user-select: none;
+    -moz-user-select: none;
+}
+
 div.top_bar
 {
     display: flex;

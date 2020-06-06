@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <!--
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+        -->
+        <script src="main.js" type="module"></script>
+        <title>ACID LINES</title>
+    </head>
+    <body>
+    <div class="layout">
+
+        <div class="top_bar">
+            <div class="top_menu">
+                <div class="logotext">ACID LINES</div>
+                <div class="menu_button" id="btn_new">New</div>
+
+                <!--
+                <div class="tablink menu_button" id="tablink_edit">Edit</div>
+                <div class="tablink menu_button" id="tablink_share">Share</div>
+                <div class="tablink menu_button" id="tablink_browse">Browse</div>
+                <div class="tablink menu_button" id="tablink_help">Help</div>
+                <div class="tablink menu_button" id="tablink_about">About</div>
+                -->
+
+                <a class="menu_link" href="https://reddit.com/r/musictools", target="_blank">Reddit</a>
+            </div>
+
+            <div class="top_buttons">
+                <div class="menu_button" id="btn_play">Play</div>
+                <div class="menu_button" style="display:none" id="btn_stop">Stop</div>
+                <div id="btn_login" style="cursor: pointer; color: #FA0; margin: 4px; padding: 4px;">[Log in]</div>
+                <div id="btn_user" style="cursor: pointer; display: none; color: #FA0; margin: 4px; padding: 4px;"></div>
+            </div>
+        </div>
+
+        <!-- Edit tab, graph editing -->
+        <div class="tabcontent" id="tab_edit" style="padding:0; margin:0; max-width: unset; overflow: scroll;">
+
+        </div>
+
+    </div>
+    </body>
+</html>
