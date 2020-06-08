@@ -138,6 +138,35 @@ div.tabcontent
     margin-bottom: 10px;
 }
 
+#top_buttons_div {
+    width: 100%;
+    margin: 12px auto;
+    display: flex;
+    justify-content: center;
+    /*border: 2px solid white;*/
+}
+
+#table_div {
+    width: 800px;
+    margin: 12px auto;
+    border: 1px solid #555;
+    padding: 2px;
+    overflow-x: scroll;
+    white-space: nowrap
+}
+
+#buttons_div {
+    margin: 12px auto;
+    display: flex;
+    justify-content: center;
+}
+
+#controls_div {
+    width: 800px;
+    margin: 12px auto;
+    padding: 0px;
+    display: flex;
+}
 
 
 
