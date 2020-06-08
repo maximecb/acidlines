@@ -28,8 +28,6 @@
             </div>
 
             <div class="top_buttons">
-                <div class="menu_button" id="btn_play">Play</div>
-                <div class="menu_button" style="display:none" id="btn_stop">Stop</div>
                 <div id="btn_login" style="cursor: pointer; color: #FA0; margin: 4px; padding: 4px;">[Log in]</div>
                 <div id="btn_user" style="cursor: pointer; display: none; color: #FA0; margin: 4px; padding: 4px;"></div>
             </div>
@@ -37,9 +35,47 @@
 
         <!-- Edit tab, graph editing -->
         <div class="tabcontent" id="tab_edit" style="padding:0; margin:0; max-width: unset; overflow: scroll;">
+            <div style="display: flex; justify-content: center">
+            <input type="text" id="project_title" size=50 maxlength=50 value="Untitled Project">
+            </div>
 
+            <div id="top_buttons_div">
+                <button class="button" id="btn_new">New</button>
+                <button class="button" id="btn_shrink">Shrink &larr;</button>
+                <button class="button" id="btn_extend">Extend &rarr;</button>
+                <button class="button" id="btn_copy">Copy &rarr;</button>
+
+                <span class="button">
+                Scale
+                <select id="select_root"></select>
+                <select id="select_scale"></select>
+                </span>
+
+            </div>
+
+            <div id="table_div">
+            </div>
+
+            <div id="buttons_div">
+                <button class="button" id="btn_play">Play</button>
+                <button class="button" id="btn_stop">Stop</button>
+                <span class="button">
+                    Loop
+                    <input type="checkbox" id="check_looping" checked />
+                </span>
+                <span class="button">
+                    Tempo
+                    <input type="range" class="slider" id="bpm_slider" style="width:120px" min="60" max="240" value="120" step="1">
+                    <span id="bpm_display">120</span>
+                </span>
+            </div>
+
+            <!-- The comments will go here later -->
+            <div id="controls_div">
+            </div>
+
+            <p style="color: white; text-align:center; font-size: 14px;">Copyright © 2020 - Maxime Chevalier-Boisvert</p>
         </div>
-
     </div>
     </body>
 </html>

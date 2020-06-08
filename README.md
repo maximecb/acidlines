@@ -1,5 +1,7 @@
 # AcidLines
 
+Try AcidLines at [acid.musictools.live](acid.musictools.live).
+
 ## Development Setup Instructions
 
 Installing dependencies:

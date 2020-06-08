@@ -114,9 +114,9 @@ div.tabcontent
 {
     flex-grow: 1;
 
-    display: none;
     padding-left: 10px;
     padding-right: 10px;
+
     /* Limit the width of text tabs */
     margin: auto;
     max-width: 900;
@@ -124,135 +124,31 @@ div.tabcontent
 
 /****************************************************************************/
 
-#graph_div
-{
-    font-family: monospace;
-    position:relative;
-    top: 0px;
-    left: 0px;
-    background: #222;
-}
-
-#graph_bg_text
-{
-    display: none;
-    user-select: none;
-    -moz-user-select: none;
-    color: rgb(150, 150, 150);
+/* Project title display/edit box on the main page */
+#project_title {
+    border: none;
+    border-color: transparent;
+    background: none;
+    color: white;
+    font-size: 32px;
     font-weight: bold;
-    font-family: sans-serif;
-    font-size: 20;
-    position: absolute;
-    margin: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#svg
-{
-    z-index: 1;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
-
-div.node
-{
-    position:absolute;
-
-    padding-top: 2px;
-    padding-bottom: 2px;
-    z-index: 2;
-
-    background: #444;
-    border: 2px solid #666;
-
-    /* prevent the text from being selected when user clicks */
-    user-select: none;
-    -moz-user-select: none;
-}
-
-div.node_header
-{
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 8px;
-    padding-right: 8px;
-    font-size: 14;
     text-align: center;
-    cursor: move;
+    outline: none;
+    margin-top: 22px;
+    margin-bottom: 10px;
 }
 
-div.node_content
-{
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-}
 
-div.node_in_ports
-{
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-    left: -5px;
-    min-width: 12px;
-}
 
-div.node_center
-{
-    display: inline-block;
-}
 
-div.node_out_ports
-{
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-    right: -5px;
-    min-width: 12px;
-}
 
-div.node_in_port
-{
-    display: grid;
-    grid-template-areas: "port name";
-    grid-template-columns: min-content 1fr;
-    grid-template-rows: auto;
-    text-align: left;
-}
 
-div.node_out_port
-{
-    display: grid;
-    grid-template-areas: "name port";
-    grid-template-columns: 1fr min-content;
-    grid-template-rows: auto;
-    text-align: right;
-}
 
-div.port_text
-{
-    display: inline-block;
-    grid-area: name;
-    align-self: center;
-    padding: 2px;
-    font-size: 12;
-    color: #AAA;
-}
 
-div.port_conn
-{
-    display: inline-block;
-    grid-area: port;
-    align-self: center;
-    width:8px;
-    height:8px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    background: #FA0;
-}
+
+
+
+
 
 div.patsel_btn
 {
@@ -284,23 +180,6 @@ div.patsel_btn_queue
     width: 18;
     margin-left: 2;
     margin-right: 2;
-}
-
-/* Track title display/edit box on the main page */
-#project_title {
-    position: fixed;
-    bottom: 18; right: 18;
-
-    font-family: monospace;
-    font-size: 16;
-    font-weight: normal;
-    text-align: right;
-    color: #777;
-
-    border: none;
-    border-color: transparent;
-    outline: none;
-    background: none;
 }
 
 /****************************************************************************/
