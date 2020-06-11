@@ -12,7 +12,7 @@ export class Model
         this.playPos = null;
 
         // Callbacks
-        this.patSelectCbs = [];
+        this.selectPatCbs = [];
         this.setLengthCbs = [];
         this.setStepCbs = [];
     }
@@ -48,9 +48,6 @@ export class Model
         this.load(data);
     }
 
-    // TODO: methods to mutate the state
-    // Start with just setStep, so we can quickly do some basic testing
-
     selectPat(patIdx)
     {
         if (patIdx >= this.data.patterns.length)
@@ -58,16 +55,20 @@ export class Model
 
         this.curPat = patIdx;
 
+        let pat = this.data.patterns[patIdx];
 
-        // TODO: notify relevant update callbacks
-        // set current pattern
-        // set pattern length
-        // update all steps
+        // Notify relevant update callbacks
+        this.selectPatCbs.forEach(cb => cb(patIdx));
+        this.setLengthCbs.forEach(cb => cb(pat.length));
 
+        // Update all steps
+        for (let i = 0; i < pat.length; ++i)
+        {
+            this.setStepCbs.forEach(cb => cb(i, pat.notes[i]));
 
-
-
-
+            // TODO:
+            //accent, shift
+        }
     }
 
     setStep(stepIdx, rowIdx)
@@ -79,23 +80,16 @@ export class Model
 
         pat.notes[stepIdx] = rowIdx;
 
-
-        // TODO: callback
-
-
-
-
-
-
+        this.setStepCbs.forEach(cb => cb(stepIdx, rowIdx));
     }
 
     //setAccent()
     //setShift()
     //setTempo()
 
-    regPatSelect(cb)
+    regSelectPat(cb)
     {
-        this.patSelectCbs.append(cb);
+        this.selectPatCbs.append(cb);
     }
 
     regSetLength(cb)
@@ -103,8 +97,8 @@ export class Model
         this.setLengthCbs.append(cb);
     }
 
-    regStepSet(cb)
+    regSetStep(cb)
     {
-        this.stepSetCbs.append(cb);
+        this.setStepCbs.append(cb);
     }
 }
