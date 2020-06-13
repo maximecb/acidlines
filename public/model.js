@@ -33,10 +33,10 @@ export class Model
 
             patterns: [
                 {
-                    length: 8,
-                    notes: [null, null, null, null, null, null, null, null],
-                    shift: [0, 0, 0, 0, 0, 0, 0, 0],
-                    accent: [0, 0, 0, 0, 0, 0, 0, 0],
+                    length: 16,
+                    notes: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+                    shift: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    accent: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 }
             ],
 
@@ -57,18 +57,15 @@ export class Model
 
         let pat = this.data.patterns[patIdx];
 
-        // Notify relevant update callbacks
-        this.selectPatCbs.forEach(cb => cb(patIdx));
-        this.setLengthCbs.forEach(cb => cb(pat.length));
-
-        // Update all steps
-        for (let i = 0; i < pat.length; ++i)
-        {
-            this.setStepCbs.forEach(cb => cb(i, pat.notes[i]));
-
-            // TODO:
-            //accent, shift
+        let patCopy = {
+            length: pat.length,
+            notes: [...pat.notes],
+            shift: [...pat.shift],
+            accent: [...pat.accent],
         }
+
+        // Notify relevant update callbacks
+        this.selectPatCbs.forEach(cb => cb(patIdx, patCopy));
     }
 
     setStep(stepIdx, rowIdx)
@@ -89,16 +86,16 @@ export class Model
 
     regSelectPat(cb)
     {
-        this.selectPatCbs.append(cb);
+        this.selectPatCbs.push(cb);
     }
 
     regSetLength(cb)
     {
-        this.setLengthCbs.append(cb);
+        this.setLengthCbs.push(cb);
     }
 
     regSetStep(cb)
     {
-        this.setStepCbs.append(cb);
+        this.setStepCbs.push(cb);
     }
 }
