@@ -14,7 +14,7 @@ export class Model
         // Callbacks
         this.selectPatCbs = [];
         this.setLengthCbs = [];
-        this.setStepCbs = [];
+        this.setNoteCbs = [];
     }
 
     load(data)
@@ -46,6 +46,22 @@ export class Model
         }
 
         this.load(data);
+    }
+
+    getNote(stepIdx)
+    {
+        return this.data.patterns[this.curPat].notes[stepIdx];
+    }
+
+    setNote(stepIdx, note)
+    {
+        if (note !== null && (note < 0 || note >= 12))
+            throw RangeError('invalid note');
+
+        this.data.patterns[this.curPat].notes[stepIdx] = note;
+
+        // Notify the listeners of the update
+        this.setNoteCbs.forEach(cb => cb(stepIdx, note));
     }
 
     selectPat(patIdx)
@@ -94,8 +110,8 @@ export class Model
         this.setLengthCbs.push(cb);
     }
 
-    regSetStep(cb)
+    regSetNote(cb)
     {
-        this.setStepCbs.push(cb);
+        this.setNoteCbs.push(cb);
     }
 }

@@ -1,3 +1,7 @@
+const numRows = 12;
+const onColor = 'rgb(255,0,0)';
+const offColor = 'rgb(150,0,0)';
+
 export class GUIView
 {
     constructor()
@@ -10,20 +14,18 @@ export class GUIView
 
         // The cell divs are indexed by step index
         this.cellDivs = [];
+
+        this.noteClickCbs = [];
     }
 
     selectPat(patIdx, patData)
     {
-        const numRows = 12;
-        const onColor = 'rgb(255,0,0)';
-        const offColor = 'rgb(150,0,0)';
-
         var numSteps = patData.length;
         var numBars = Math.ceil(numSteps / 16);
 
-        let cellDivs = this.cellDivs;
+        let view = this;
 
-        function makeCell(i, j, cellOn)
+        function makeCell(stepIdx, noteIdx, cellOn)
         {
             // The outer cell div is the element reacting to clicks
             // It's larger and therefore easier to click
@@ -36,14 +38,17 @@ export class GUIView
             inner.style['width'] = '14px';
             inner.style['height'] = '14px';
             inner.style['margin'] = '2px';
-            inner.style['margin-left'] = (i%4 == 0)? '3px':'2px';
-            inner.style['margin-right'] = (i%4 == 3)? '3px':'2px';
+            inner.style['margin-left'] = (stepIdx%4 == 0)? '3px':'2px';
+            inner.style['margin-right'] = (stepIdx%4 == 3)? '3px':'2px';
             inner.style['background-color'] = cellOn? onColor:offColor;
             cell.appendChild(inner);
 
-            console.log(i, j);
-            console.log(cellDivs);
-            cellDivs[i][j] = inner;
+            // Store a reference to the inner div
+            view.cellDivs[stepIdx][noteIdx] = inner;
+
+            // Notify the callback when this cell is clicked
+            let callCb = cb => cb(stepIdx, noteIdx);
+            cell.onclick = () => view.noteClickCbs.forEach(callCb);
 
             return cell;
         }
@@ -104,6 +109,22 @@ export class GUIView
         }
     }
 
+    /// Set the note index for a given step
+    setNote(stepIdx, noteIdx)
+    {
+        console.log('view.setNote', stepIdx, noteIdx);
+
+        let col = this.cellDivs[stepIdx];
+
+        // For each cell in this column
+        for (let i = 0; i < col.length; ++i)
+        {
+            let cellOn = (noteIdx === i);
+            col[i].style['background-color'] = cellOn? onColor:offColor;
+        }
+    }
+
+    /// Set the length of the pattern
     setLength(newLen)
     {
         if (newLen == this.cellDivs.length)
@@ -112,11 +133,9 @@ export class GUIView
         throw TypeError('not yet implemented');
     }
 
-    setCell(stepIdx, rowIdx)
+    /// Handler for when a note grid cell is clicked
+    regNoteClick(cb)
     {
-        // TODO: wait until later
+        this.noteClickCbs.push(cb);
     }
-
-    // TODO: handler for when a sell is set/clicked?
-    // This can wait until we have display working
 }
