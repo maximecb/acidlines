@@ -12,9 +12,14 @@ export class MIDIView
     /// Start playback
     play()
     {
+        console.log('MIDIView.play()');
 
+        // Store the time playback started
+        this.playStart = performance.now();
 
         // TODO: schedule a timer interval?
+
+
 
 
     }

@@ -6,7 +6,7 @@ import { Controller } from './controller.js';
 let model = new Model();
 let guiView = new GUIView();
 let midiView = new MIDIView();
-let controller = new Controller(model, guiView);
+let controller = new Controller(model, guiView, midiView);
 
 model.new();
 

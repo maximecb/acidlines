@@ -65,6 +65,20 @@ export class Model
         this.setNoteCbs.forEach(cb => cb(stepIdx, note));
     }
 
+    /// Get a copy of the current pattern data
+    getPattern()
+    {
+        let pat = this.data.patterns[this.curPat];
+
+        return {
+            length: pat.length,
+            notes: [...pat.notes],
+            shift: [...pat.shift],
+            accent: [...pat.accent],
+            slide: [...pat.slide],
+        };
+    }
+
     selectPat(patIdx)
     {
         if (patIdx >= this.data.patterns.length)
@@ -72,18 +86,8 @@ export class Model
 
         this.curPat = patIdx;
 
-        let pat = this.data.patterns[patIdx];
-
-        let patCopy = {
-            length: pat.length,
-            notes: [...pat.notes],
-            shift: [...pat.shift],
-            accent: [...pat.accent],
-            slide: [...pat.slide],
-        }
-
         // Notify relevant update callbacks
-        this.selectPatCbs.forEach(cb => cb(patIdx, patCopy));
+        this.selectPatCbs.forEach(cb => cb(patIdx, this.getPattern()));
     }
 
     setStep(stepIdx, rowIdx)

@@ -1,6 +1,6 @@
 export class Controller
 {
-    constructor(model, view)
+    constructor(model, guiView, midiView)
     {
         // Note clicked in the view
         function noteClick(stepIdx, noteIdx)
@@ -19,23 +19,27 @@ export class Controller
         // Play clicked in the view
         function play()
         {
-            console.log('play');
+            midiView.play();
 
-
-
-
-
+            // TODO: grey out or hide play button
         }
 
-        model.regSelectPat((idx, pat) => view.selectPat(idx, pat));
-        model.regSetLength(l => view.setLength(l));
+        // Callback to update the midi view's pattern data
+        let updateMidi = () => midiView.setPattern(model.getPattern);
+
+        model.regSelectPat((idx, pat) => guiView.selectPat(idx, pat));
+        model.regSelectPat(updateMidi);
+
+        model.regSetLength(l => guiView.setLength(l));
+        model.regSetLength(updateMidi);
 
         // Note update callbacks
-        view.regNoteClick(noteClick);
-        model.regSetNote((stepIdx, noteIdx) => view.setNote(stepIdx, noteIdx));
+        guiView.regNoteClick(noteClick);
+        model.regSetNote((stepIdx, noteIdx) => guiView.setNote(stepIdx, noteIdx));
+        model.regSetNote(updateMidi);
 
         // Play/stop
-        view.regPlay(play);
+        guiView.regPlay(play);
 
 
 
