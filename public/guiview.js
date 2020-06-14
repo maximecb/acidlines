@@ -6,8 +6,8 @@ export class GUIView
 {
     constructor()
     {
-        // TODO: fetch button elements from document
-        // For now, we don't need any?
+        this.btnPlay = document.getElementById('btn_play');
+        this.btnStop = document.getElementById('btn_stop');
 
         // Fetch the pattern div
         this.patDiv = document.getElementById('pat_div');
@@ -16,6 +16,11 @@ export class GUIView
         this.cellDivs = [];
 
         this.noteClickCbs = [];
+        this.playCbs = [];
+        this.stopCbs = [];
+
+        this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
+        this.btnStop.onclick = () => this.playCbs.forEach(cb => cb());
     }
 
     selectPat(patIdx, patData)
@@ -137,5 +142,15 @@ export class GUIView
     regNoteClick(cb)
     {
         this.noteClickCbs.push(cb);
+    }
+
+    regPlay(cb)
+    {
+        this.playCbs.push(cb);
+    }
+
+    regStop(cb)
+    {
+        this.stopCbs.push(cb);
     }
 }

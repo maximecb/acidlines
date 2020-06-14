@@ -34,9 +34,10 @@ export class Model
             patterns: [
                 {
                     length: 16,
-                    notes: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-                    shift: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    accent: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    notes: Array(16).fill(null),
+                    shift: Array(16).fill(0),
+                    accent: Array(16).fill(0),
+                    slide: Array(16).fill(0),
                 }
             ],
 
@@ -78,6 +79,7 @@ export class Model
             notes: [...pat.notes],
             shift: [...pat.shift],
             accent: [...pat.accent],
+            slide: [...pat.slide],
         }
 
         // Notify relevant update callbacks
