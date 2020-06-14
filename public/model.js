@@ -3,6 +3,7 @@ export class Model
     constructor()
     {
         // Patterns data and current scale/root
+        // Plain JSON object that can be shared/persisted
         this.data = null;
 
         // Currently selected pattern

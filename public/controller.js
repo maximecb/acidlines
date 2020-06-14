@@ -35,7 +35,7 @@ export class Controller
 
         // Tempo changed
         guiView.regTempo(tempo => model.setTempo(tempo));
-        //model.regSetTempo(tempo => guiView.setTempo(tempo));
+        model.regSetTempo(tempo => guiView.setTempo(tempo));
         model.regSetTempo(tempo => midiView.setTempo(tempo));
 
         model.regSelectPat((idx, pat) => guiView.selectPat(idx, pat));

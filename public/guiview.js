@@ -1,3 +1,5 @@
+import * as music from './music.js';
+
 const numRows = 12;
 const onColor = 'rgb(255,0,0)';
 const offColor = 'rgb(150,0,0)';
@@ -24,7 +26,7 @@ export class GUIView
 
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
         this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
-        this.bpmSlider.onchange = () => this.tempoCbs.forEach(cb => cb(this.bpmSlider.value));
+        this.bpmSlider.oninput = () => this.tempoCbs.forEach(cb => cb(this.bpmSlider.value));
     }
 
     selectPat(patIdx, patData)
@@ -140,6 +142,12 @@ export class GUIView
             return;
 
         throw TypeError('not yet implemented');
+    }
+
+    setTempo(tempo)
+    {
+        this.bpmSlider.value = tempo;
+        this.bpmDisplay.innerHTML = tempo;
     }
 
     /// Handler for when a note grid cell is clicked
