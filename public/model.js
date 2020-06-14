@@ -12,6 +12,7 @@ export class Model
         this.playPos = null;
 
         // Callbacks
+        this.setTempoCbs = [];
         this.selectPatCbs = [];
         this.setLengthCbs = [];
         this.setNoteCbs = [];
@@ -31,6 +32,8 @@ export class Model
             scaleName: 'natural minor',
             rootNote: 'C3',
 
+            tempo: 120,
+
             patterns: [
                 {
                     length: 16,
@@ -49,20 +52,10 @@ export class Model
         this.load(data);
     }
 
-    getNote(stepIdx)
+    setTempo(tempo)
     {
-        return this.data.patterns[this.curPat].notes[stepIdx];
-    }
-
-    setNote(stepIdx, note)
-    {
-        if (note !== null && (note < 0 || note >= 12))
-            throw RangeError('invalid note');
-
-        this.data.patterns[this.curPat].notes[stepIdx] = note;
-
-        // Notify the listeners of the update
-        this.setNoteCbs.forEach(cb => cb(stepIdx, note));
+        this.data.tempo = tempo;
+        this.setTempoCbs.forEach(cb => cb(tempo));
     }
 
     /// Get a copy of the current pattern data
@@ -90,21 +83,26 @@ export class Model
         this.selectPatCbs.forEach(cb => cb(patIdx, this.getPattern()));
     }
 
-    setStep(stepIdx, rowIdx)
+    getNote(stepIdx)
     {
-        let pat = this.data.patterns[this.curPat];
-
-        if (stepIdx >= pat.length)
-            throw RangeError('invalid step index');
-
-        pat.notes[stepIdx] = rowIdx;
-
-        this.setStepCbs.forEach(cb => cb(stepIdx, rowIdx));
+        return this.data.patterns[this.curPat].notes[stepIdx];
     }
 
-    //setAccent()
-    //setShift()
-    //setTempo()
+    setNote(stepIdx, note)
+    {
+        if (note !== null && (note < 0 || note >= 12))
+            throw RangeError('invalid note');
+
+        this.data.patterns[this.curPat].notes[stepIdx] = note;
+
+        // Notify the listeners of the update
+        this.setNoteCbs.forEach(cb => cb(stepIdx, note));
+    }
+
+    regSetTempo()
+    {
+        this.setTempoCbs.push(cb);
+    }
 
     regSelectPat(cb)
     {

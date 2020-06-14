@@ -16,12 +16,18 @@ export class Controller
                 model.setNote(stepIdx, noteIdx);
         }
 
-        // Play clicked in the view
+        // Play button clicked
         function play()
         {
             midiView.play();
 
             // TODO: grey out or hide play button
+        }
+
+        // Stop button clicked
+        function stop()
+        {
+            midiView.stop();
         }
 
         // Callback to update the midi view's pattern data
@@ -40,11 +46,6 @@ export class Controller
 
         // Play/stop
         guiView.regPlay(play);
-
-
-
-
-
-
+        guiView.regStop(stop);
     }
 }

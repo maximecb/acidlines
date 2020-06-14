@@ -20,7 +20,7 @@ export class GUIView
         this.stopCbs = [];
 
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
-        this.btnStop.onclick = () => this.playCbs.forEach(cb => cb());
+        this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
     }
 
     selectPat(patIdx, patData)

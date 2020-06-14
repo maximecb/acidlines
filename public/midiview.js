@@ -4,24 +4,41 @@ export class MIDIView
     {
         // Current pattern being played
         this.pat = null;
-
-        // Time at which playback was started
-        this.playStart = null;
     }
 
     /// Start playback
     play()
     {
+        function update()
+        {
+            console.log('update');
+
+            let time = performance.now();
+            let pos = time - playStart;
+
+
+
+
+
+        }
+
         console.log('MIDIView.play()');
 
         // Store the time playback started
-        this.playStart = performance.now();
+        let playStart = performance.now();
 
-        // TODO: schedule a timer interval?
+        update();
 
+        // Schedule regular updates
+        this.interv = setInterval(update, 30);
+    }
 
+    stop()
+    {
+        if (!this.interv)
+            return;
 
-
+        clearInterval(this.interv);
     }
 
     setPattern(pat)
