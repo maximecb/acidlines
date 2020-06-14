@@ -33,6 +33,11 @@ export class Controller
         // Callback to update the midi view's pattern data
         let updateMidi = () => midiView.setPattern(model.getPattern);
 
+        // Tempo changed
+        guiView.regTempo(tempo => model.setTempo(tempo));
+        //model.regSetTempo(tempo => guiView.setTempo(tempo));
+        model.regSetTempo(tempo => midiView.setTempo(tempo));
+
         model.regSelectPat((idx, pat) => guiView.selectPat(idx, pat));
         model.regSelectPat(updateMidi);
 

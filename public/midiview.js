@@ -4,6 +4,9 @@ export class MIDIView
     {
         // Current pattern being played
         this.pat = null;
+
+        // Current tempo
+        this.tempo = 120;
     }
 
     /// Start playback
@@ -16,6 +19,7 @@ export class MIDIView
             let time = performance.now();
             let pos = time - playStart;
 
+            // TODO: use tempo
 
 
 
@@ -46,9 +50,8 @@ export class MIDIView
         this.pat = pat;
     }
 
-
-
-
-
-
+    setTempo(tempo)
+    {
+        this.tempo = tempo;
+    }
 }

@@ -8,6 +8,8 @@ export class GUIView
     {
         this.btnPlay = document.getElementById('btn_play');
         this.btnStop = document.getElementById('btn_stop');
+        this.bpmSlider = document.getElementById('bpm_slider');
+        this.bpmDisplay = document.getElementById('bpm_display');
 
         // Fetch the pattern div
         this.patDiv = document.getElementById('pat_div');
@@ -18,9 +20,11 @@ export class GUIView
         this.noteClickCbs = [];
         this.playCbs = [];
         this.stopCbs = [];
+        this.tempoCbs = []
 
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
         this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
+        this.bpmSlider.onchange = () => this.tempoCbs.forEach(cb => cb(this.bpmSlider.value));
     }
 
     selectPat(patIdx, patData)
@@ -152,5 +156,11 @@ export class GUIView
     regStop(cb)
     {
         this.stopCbs.push(cb);
+    }
+
+    // Handler for when the tempo is changed
+    regTempo(cb)
+    {
+        this.tempoCbs.push(cb);
     }
 }

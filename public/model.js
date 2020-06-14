@@ -99,7 +99,7 @@ export class Model
         this.setNoteCbs.forEach(cb => cb(stepIdx, note));
     }
 
-    regSetTempo()
+    regSetTempo(cb)
     {
         this.setTempoCbs.push(cb);
     }
