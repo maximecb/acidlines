@@ -8,6 +8,7 @@ export class GUIView
 {
     constructor()
     {
+        this.selectRoot = document.getElementById('select_root');
         this.btnPlay = document.getElementById('btn_play');
         this.btnStop = document.getElementById('btn_stop');
         this.bpmSlider = document.getElementById('bpm_slider');
@@ -19,11 +20,26 @@ export class GUIView
         // The cell divs are indexed by step index
         this.cellDivs = [];
 
+        // Callbacks that can be registered on the GUI view
         this.noteClickCbs = [];
         this.playCbs = [];
         this.stopCbs = [];
         this.tempoCbs = []
 
+        // Populate the root note selection
+        var rootNote = music.Note('C1');
+        for (let i = 0; i < 5 * music.NOTES_PER_OCTAVE; ++i)
+        {
+            var noteName = rootNote.getName();
+            var opt = document.createElement("option");
+            opt.setAttribute('value', noteName);
+            opt.appendChild(document.createTextNode(noteName));
+            opt.selected = (noteName == 'C3');
+            this.selectRoot.appendChild(opt);
+            rootNote = rootNote.offset(1);
+        }
+
+        // Connect the UI elements to callbacks
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
         this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
         this.bpmSlider.oninput = () => this.tempoCbs.forEach(cb => cb(this.bpmSlider.value));

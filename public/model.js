@@ -30,6 +30,8 @@ export class Model
     new()
     {
         let data = {
+            title: 'Untitled Project',
+
             scaleName: 'natural minor',
             rootNote: 'C3',
 
