@@ -21,6 +21,10 @@ export class MIDIView
     /// Start playback
     play()
     {
+        // If playback already started, stop first
+        if (this.updInterv)
+            this.stop();
+
         function update()
         {
             //console.log('update');
@@ -48,7 +52,8 @@ export class MIDIView
             let note = this.pat.notes[stepIdx];
 
             // Set the playback position when the note is playing
-            setTimeout(() => this.playPosCbs.forEach(cb => cb(stepIdx)), timeToStep);
+            let updateCb = () => this.playPosCbs.forEach(cb => cb(stepIdx));
+            this.posInterv = setTimeout(updateCb, timeToStep);
 
             // Move on to the next step
             nextStep++;
@@ -86,16 +91,19 @@ export class MIDIView
         update();
 
         // Schedule regular updates
-        this.interv = setInterval(update, 25);
+        this.updInterv = setInterval(update, 25);
     }
 
     stop()
     {
-        if (!this.interv)
+        if (!this.updInterv)
             return;
 
         // Stop updating the playback
-        clearInterval(this.interv);
+        clearInterval(this.updInterv);
+
+        // Stop updating the playback position
+        clearInterval(this.posInterv);
 
         // Clear the playback position
         this.playPosCbs.forEach(cb => cb(null));
@@ -109,5 +117,10 @@ export class MIDIView
     setTempo(tempo)
     {
         this.tempo = tempo;
+    }
+
+    regPlayPos(cb)
+    {
+        this.playPosCbs.push(cb);
     }
 }

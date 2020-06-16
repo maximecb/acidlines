@@ -52,5 +52,9 @@ export class Controller
         // Play/stop
         guiView.regPlay(play);
         guiView.regStop(stop);
+
+        // Playback position highlighting
+        midiView.regPlayPos((stepIdx) => model.setPlayPos(stepIdx));
+        model.regPlayPos((stepIdx) => guiView.setPlayPos(stepIdx));
     }
 }

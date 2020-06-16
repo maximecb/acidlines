@@ -17,7 +17,7 @@ export class Model
         this.selectPatCbs = [];
         this.setLengthCbs = [];
         this.setNoteCbs = [];
-        this.playStepCbs = [];
+        this.playPosCbs = [];
     }
 
     load(data)
@@ -103,10 +103,10 @@ export class Model
         this.setNoteCbs.forEach(cb => cb(stepIdx, note));
     }
 
-    setStep(stepIdx)
+    setPlayPos(stepIdx)
     {
         this.curStep = stepIdx;
-        this.setStepCbs.forEach(cb => cb(stepIdx));
+        this.playPosCbs.forEach(cb => cb(stepIdx));
     }
 
     regSetTempo(cb)
@@ -129,8 +129,8 @@ export class Model
         this.setNoteCbs.push(cb);
     }
 
-    regPlayStep(cb)
+    regPlayPos(cb)
     {
-        this.playStepCbs.push(cb);
+        this.playPosCbs.push(cb);
     }
 }

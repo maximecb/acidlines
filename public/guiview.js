@@ -1,8 +1,9 @@
 import * as music from './music.js';
 
 const numRows = 12;
-const onColor = 'rgb(255,0,0)';
-const offColor = 'rgb(150,0,0)';
+const onColor = 'rgb(255, 0, 0)';
+const offColor = 'rgb(150, 0, 0)';
+const highColor = 'rgb(255, 255, 255)';
 
 export class GUIView
 {
@@ -19,6 +20,9 @@ export class GUIView
 
         // The cell divs are indexed by step index
         this.cellDivs = [];
+
+        // Currently highlighted step
+        this.playPos = null;
 
         // Callbacks that can be registered on the GUI view
         this.noteClickCbs = [];
@@ -149,6 +153,40 @@ export class GUIView
             let cellOn = (noteIdx === i);
             col[i].style['background-color'] = cellOn? onColor:offColor;
         }
+    }
+
+    /// Highlight the currently playing note
+    setPlayPos(stepIdx)
+    {
+        // Need to un-highlight previous play position
+        if (this.playPos !== null)
+        {
+            // For each cell in this column
+            let col = this.cellDivs[this.playPos];
+            for (let i = 0; i < col.length; ++i)
+            {
+                let curColor = col[i].style['background-color'];
+                let cellHigh = curColor == highColor;
+                col[i].style['background-color'] = cellHigh? onColor:curColor;
+            }
+        }
+
+        // Highlight the new play position
+        if (stepIdx !== null)
+        {
+            // For each cell in this column
+            let col = this.cellDivs[stepIdx];
+            for (let i = 0; i < col.length; ++i)
+            {
+                let curColor = col[i].style['background-color'];
+                let cellOn = curColor == onColor;
+                col[i].style['background-color'] = cellOn? highColor:curColor;
+            }
+        }
+
+        console.log('playPos: ', stepIdx);
+
+        this.playPos = stepIdx;
     }
 
     /// Set the length of the pattern
