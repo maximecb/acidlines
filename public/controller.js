@@ -31,7 +31,7 @@ export class Controller
         }
 
         // Callback to update the midi view's pattern data
-        let updateMidi = () => midiView.setPattern(model.getPattern);
+        let updateMidi = () => midiView.setPattern(model.getPattern());
 
         // Tempo changed
         guiView.regTempo(tempo => model.setTempo(tempo));
