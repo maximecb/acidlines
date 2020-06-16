@@ -13,6 +13,7 @@ export class Model
         this.curStep = null;
 
         // Callbacks
+        this.setRootCbs = [];
         this.setTempoCbs = [];
         this.selectPatCbs = [];
         this.setLengthCbs = [];
@@ -33,8 +34,10 @@ export class Model
         let data = {
             title: 'Untitled Project',
 
-            scaleName: 'natural minor',
             rootNote: 'C3',
+
+            // Highlighted scale
+            scaleName: 'natural minor',
 
             tempo: 120,
 
@@ -54,6 +57,12 @@ export class Model
         }
 
         this.load(data);
+    }
+
+    setRootNote(rootNote)
+    {
+        this.data.rootNote = rootNote;
+        this.setRootCbs.forEach(cb => cb(rootNote));
     }
 
     setTempo(tempo)
@@ -107,6 +116,11 @@ export class Model
     {
         this.curStep = stepIdx;
         this.playPosCbs.forEach(cb => cb(stepIdx));
+    }
+
+    regSetRoot(cb)
+    {
+        this.setRootCbs.push(cb);
     }
 
     regSetTempo(cb)

@@ -114,6 +114,11 @@ export class MIDIView
         this.pat = pat;
     }
 
+    setRootNote(rootNote)
+    {
+        this.rootNote = music.Note(rootNote).noteNo
+    }
+
     setTempo(tempo)
     {
         this.tempo = tempo;

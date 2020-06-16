@@ -28,6 +28,7 @@ export class GUIView
         this.noteClickCbs = [];
         this.playCbs = [];
         this.stopCbs = [];
+        this.rootCbs = [];
         this.tempoCbs = []
 
         // Populate the root note selection
@@ -43,7 +44,15 @@ export class GUIView
             rootNote = rootNote.offset(1);
         }
 
+        function rootChange()
+        {
+            let selectIdx = this.selectRoot.selectedIndex;
+            let scaleRoot = this.selectRoot.options[selectIdx].value;
+            this.rootCbs.forEach(cb => cb(scaleRoot));
+        }
+
         // Connect the UI elements to callbacks
+        this.selectRoot.onchange = rootChange.bind(this);
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
         this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
         this.bpmSlider.oninput = () => this.tempoCbs.forEach(cb => cb(this.bpmSlider.value));
@@ -198,6 +207,21 @@ export class GUIView
         throw TypeError('not yet implemented');
     }
 
+    setRootNote(rootNote)
+    {
+        // Find the option to select
+        for (let i = 0; i < this.selectRoot.options.length; ++i)
+        {
+            if (this.selectRoot.options[i].value == rootNote)
+            {
+                this.selectRoot.selectedIndex = i;
+                return;
+            }
+        }
+
+        throw RangeError('invalid root note');
+    }
+
     setTempo(tempo)
     {
         this.bpmSlider.value = tempo;
@@ -218,6 +242,12 @@ export class GUIView
     regStop(cb)
     {
         this.stopCbs.push(cb);
+    }
+
+    // Handler for when the root note is changed
+    regRoot(cb)
+    {
+        this.rootCbs.push(cb);
     }
 
     // Handler for when the tempo is changed
