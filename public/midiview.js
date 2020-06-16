@@ -27,8 +27,6 @@ export class MIDIView
 
         function update()
         {
-            //console.log('update');
-
             let tempo = this.tempo;
             let pat = this.pat;
 
@@ -39,15 +37,14 @@ export class MIDIView
             let time = performance.now();
             let pos = time - playStart;
 
-            // Compute the position of the next step to be sent
-            let nextStepPos = nextStep * stepLen;
+            // Compute the time until the next step should be played
             let timeToStep = nextStepPos - pos
 
-            // If it's not time to send the next note
+            // If it's not time to send the next note, stop
             if (timeToStep > 25)
                 return;
 
-            // Get the current note
+            // Get the next note to be sent
             let stepIdx = nextStep % this.pat.length;
             let note = this.pat.notes[stepIdx];
 
@@ -57,6 +54,9 @@ export class MIDIView
 
             // Move on to the next step
             nextStep++;
+
+            // Compute the position of the next step to be sent
+            nextStepPos = nextStepPos + stepLen;
 
             // If this note not quiet
             if (note === null)
@@ -80,13 +80,14 @@ export class MIDIView
         // Bind the update function to this object
         update = update.bind(this);
 
-        console.log('MIDIView.play()');
-
         // Store the time playback started
         let playStart = performance.now();
 
         // Next step to be sent
         let nextStep = 0;
+
+        // Time at which the next step should be sent
+        let nextStepPos = 0;
 
         update();
 
