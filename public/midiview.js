@@ -1,3 +1,5 @@
+import * as music from './music.js';
+
 export class MIDIView
 {
     constructor()
@@ -7,6 +9,9 @@ export class MIDIView
 
         // Current tempo
         this.tempo = 120;
+
+        // Root note number
+        this.rootNote = music.Note('C3').noteNo;
     }
 
     /// Start playback
@@ -29,19 +34,33 @@ export class MIDIView
             // Compute the position of the next step to be sent
             let nextStepPos = nextStep * stepLen;
 
-            // If it's time to send the next note
-            if (nextStepPos - pos <= 25)
-            {
-                // Get the current note
-                let note = this.pat.notes[nextStep % this.pat.length];
+            // If it's not time to send the next note
+            if (nextStepPos - pos > 25)
+                return;
 
-                //console.log(nextStep, note);
+            // Get the current note
+            let note = this.pat.notes[nextStep % this.pat.length];
+
+            // Move on to the next step
+            nextStep++;
+
+            // If this note not quiet
+            if (note === null)
+                return;
+
+            // Compute the note number
+            let noteNo = note + this.rootNote;
+
+            // Time at which to send the note
+            let sendTime = nextStepPos + playStart;
+
+            console.log(noteNo);
 
 
 
-                // Move on to the next step
-                nextStep++;
-            }
+
+
+
         }
 
         // Bind the update function to this object
