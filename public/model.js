@@ -9,14 +9,15 @@ export class Model
         // Currently selected pattern
         this.curPat = 0;
 
-        // Current playback position, in seconds
-        this.playPos = null;
+        // Currently playing step
+        this.curStep = null;
 
         // Callbacks
         this.setTempoCbs = [];
         this.selectPatCbs = [];
         this.setLengthCbs = [];
         this.setNoteCbs = [];
+        this.playStepCbs = [];
     }
 
     load(data)
@@ -102,6 +103,12 @@ export class Model
         this.setNoteCbs.forEach(cb => cb(stepIdx, note));
     }
 
+    setStep(stepIdx)
+    {
+        this.curStep = stepIdx;
+        this.setStepCbs.forEach(cb => cb(stepIdx));
+    }
+
     regSetTempo(cb)
     {
         this.setTempoCbs.push(cb);
@@ -120,5 +127,10 @@ export class Model
     regSetNote(cb)
     {
         this.setNoteCbs.push(cb);
+    }
+
+    regPlayStep(cb)
+    {
+        this.playStepCbs.push(cb);
     }
 }

@@ -13,13 +13,13 @@ export function removeInputListener(callback)
 }
 
 /// Send a message to all MIDI devices
-export function sendAll(msg)
+export function sendAll(msg, time)
 {
     if (!midi)
         return;
 
     for (let output of midi.outputs.values())
-        output.send(msg);
+        output.send(msg, time);
 }
 
 function onMidiMessage(event)
@@ -80,8 +80,9 @@ function getOutPort(midi, devName)
     console.error('could not find output port "' + devName +'"');
     return null;
 }
+*/
 
-function noteOn(noteNo, vel, chanNo)
+export function noteOn(noteNo, vel, chanNo)
 {
     if (vel == undefined)
         vel = 127;
@@ -94,7 +95,7 @@ function noteOn(noteNo, vel, chanNo)
     return [0x90 + chanNo, noteNo, vel];
 }
 
-function noteOff(noteNo, vel, chanNo)
+export function noteOff(noteNo, vel, chanNo)
 {
     if (vel == undefined)
         vel = 127;
@@ -105,4 +106,3 @@ function noteOff(noteNo, vel, chanNo)
     // note off, note number, full velocity
     return [0x80 + chanNo, noteNo, vel];
 }
-*/

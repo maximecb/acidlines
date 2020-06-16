@@ -1,4 +1,5 @@
 import * as music from './music.js';
+import * as midi from './midi.js';
 
 export class MIDIView
 {
@@ -12,6 +13,9 @@ export class MIDIView
 
         // Root note number
         this.rootNote = music.Note('C3').noteNo;
+
+        // Callbacks for then the playback position is updated
+        this.playPosCbs = []
     }
 
     /// Start playback
@@ -33,13 +37,18 @@ export class MIDIView
 
             // Compute the position of the next step to be sent
             let nextStepPos = nextStep * stepLen;
+            let timeToStep = nextStepPos - pos
 
             // If it's not time to send the next note
-            if (nextStepPos - pos > 25)
+            if (timeToStep > 25)
                 return;
 
             // Get the current note
-            let note = this.pat.notes[nextStep % this.pat.length];
+            let stepIdx = nextStep % this.pat.length;
+            let note = this.pat.notes[stepIdx];
+
+            // Set the playback position when the note is playing
+            setTimeout(() => this.playPosCbs.forEach(cb => cb(stepIdx)), timeToStep);
 
             // Move on to the next step
             nextStep++;
@@ -51,16 +60,16 @@ export class MIDIView
             // Compute the note number
             let noteNo = note + this.rootNote;
 
-            // Time at which to send the note
-            let sendTime = nextStepPos + playStart;
+            // Time at which to send the note on and off
+            let onTime = nextStepPos + playStart;
+            let offTime = onTime + stepLen - 1;
 
             console.log(noteNo);
 
-
-
-
-
-
+            let noteOn = midi.noteOn(noteNo);
+            let noteOff = midi.noteOff(noteNo);
+            midi.sendAll(noteOn, onTime);
+            midi.sendAll(noteOff, offTime);
         }
 
         // Bind the update function to this object
@@ -85,7 +94,11 @@ export class MIDIView
         if (!this.interv)
             return;
 
+        // Stop updating the playback
         clearInterval(this.interv);
+
+        // Clear the playback position
+        this.playPosCbs.forEach(cb => cb(null));
     }
 
     setPattern(pat)
