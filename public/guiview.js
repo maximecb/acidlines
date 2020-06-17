@@ -21,7 +21,7 @@ export class GUIView
         // The cell divs are indexed by step index
         this.cellDivs = [];
 
-        // Currently highlighted step
+        // Currently playing/highlighted step (null if not playing)
         this.playPos = null;
 
         // Callbacks that can be registered on the GUI view
@@ -51,11 +51,38 @@ export class GUIView
             this.rootCbs.forEach(cb => cb(scaleRoot));
         }
 
+        function keyDown(event)
+        {
+            // If a text input box is focused, do nothing
+            if (document.activeElement &&
+                document.activeElement.nodeName.toLowerCase() == "input")
+                return;
+
+            // Make the space key trigger play/stop
+            if (event.keyCode == 0x20)
+            {
+                if (this.playPos === null)
+                {
+                    console.log('playing');
+                    this.playCbs.forEach(cb => cb());
+                }
+                else
+                {
+                    console.log('stopping');
+                    this.stopCbs.forEach(cb => cb());
+                }
+
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        }
+
         // Connect the UI elements to callbacks
         this.selectRoot.onchange = rootChange.bind(this);
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
         this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
         this.bpmSlider.oninput = () => this.tempoCbs.forEach(cb => cb(this.bpmSlider.value));
+        window.addEventListener('keydown', keyDown.bind(this));
     }
 
     selectPat(patIdx, patData)
