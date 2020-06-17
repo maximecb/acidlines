@@ -9,6 +9,7 @@ export class GUIView
 {
     constructor()
     {
+        this.patLength = document.getElementById('pat_length');
         this.selectRoot = document.getElementById('select_root');
         this.btnPlay = document.getElementById('btn_play');
         this.btnStop = document.getElementById('btn_stop');
@@ -28,6 +29,7 @@ export class GUIView
         this.noteClickCbs = [];
         this.playCbs = [];
         this.stopCbs = [];
+        this.lengthCbs = [];
         this.rootCbs = [];
         this.tempoCbs = []
 
@@ -78,6 +80,7 @@ export class GUIView
         }
 
         // Connect the UI elements to callbacks
+        this.patLength.oninput = () => this.lengthCbs.forEach(cb => cb(this.patLength.value));
         this.selectRoot.onchange = rootChange.bind(this);
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
         this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
@@ -269,6 +272,12 @@ export class GUIView
     regStop(cb)
     {
         this.stopCbs.push(cb);
+    }
+
+    // Handler for when the pattern length is changed
+    regLength(cb)
+    {
+        this.lengthCbs.push(cb);
     }
 
     // Handler for when the root note is changed
