@@ -33,6 +33,17 @@ export class GUIView
         this.rootCbs = [];
         this.tempoCbs = []
 
+        function lengthChange()
+        {
+            let newLen = Number(this.patLength.value);
+
+            if (isNaN(newLen) || newLen < 1)
+                newLen = 1;
+
+            this.patLength.value = newLen;
+            this.lengthCbs.forEach(cb => cb(newLen));
+        }
+
         // Populate the root note selection
         var rootNote = music.Note('C1');
         for (let i = 0; i < 5 * music.NOTES_PER_OCTAVE; ++i)
@@ -80,7 +91,7 @@ export class GUIView
         }
 
         // Connect the UI elements to callbacks
-        this.patLength.oninput = () => this.lengthCbs.forEach(cb => cb(this.patLength.value));
+        this.patLength.onchange = lengthChange.bind(this);
         this.selectRoot.onchange = rootChange.bind(this);
         this.btnPlay.onclick = () => this.playCbs.forEach(cb => cb());
         this.btnStop.onclick = () => this.stopCbs.forEach(cb => cb());
