@@ -92,6 +92,7 @@ export class GUIView
     {
         var numSteps = patData.length;
         var numBars = Math.ceil(numSteps / 16);
+        var numFullBars = Math.floor(numSteps / 16);
 
         let view = this;
 
@@ -123,21 +124,26 @@ export class GUIView
             return cell;
         }
 
-        function makeBar(barIdv)
+        function makeBar(barIdx, barLen)
         {
+            console.log('barLen:', barLen);
+            console.log('numBars:', numBars);
+            console.log('numFullBars:', numFullBars);
+
             var bar = document.createElement('div');
             bar.style['display'] = 'inline-block';
             bar.style['margin'] = '0px 2px';
 
-            for (var j = 0; j < numRows; ++j)
+            // For each row/note, in decreasing order
+            for (var rowIdx = numRows - 1; rowIdx >= 0; rowIdx--)
             {
                 var row = document.createElement('div');
 
-                for (var i = 0; i < 16; ++i)
+                for (var i = 0; i < barLen; ++i)
                 {
                     var stepIdx = barIdx * 16 + i;
-                    let cellOn = (patData.notes[stepIdx] === j);
-                    var cell = makeCell(stepIdx, numRows - j - 1, cellOn);
+                    let cellOn = (patData.notes[stepIdx] === rowIdx);
+                    var cell = makeCell(stepIdx, rowIdx, cellOn);
                     row.appendChild(cell);
                 }
 
@@ -161,7 +167,8 @@ export class GUIView
             barDiv.style['display'] = 'inline-block';
             this.patDiv.appendChild(barDiv);
 
-            var bar = makeBar(barIdx);
+            let barLen = (barIdx >= numFullBars)? (numSteps % 16):16;
+            var bar = makeBar(barIdx, barLen);
             barDiv.appendChild(bar);
 
             // If this is not the last bar, add a separator
@@ -226,15 +233,6 @@ export class GUIView
         console.log('playPos: ', stepIdx);
 
         this.playPos = stepIdx;
-    }
-
-    /// Set the length of the pattern
-    setLength(newLen)
-    {
-        if (newLen == this.cellDivs.length)
-            return;
-
-        throw TypeError('not yet implemented');
     }
 
     setRootNote(rootNote)

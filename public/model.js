@@ -13,6 +13,7 @@ export class Model
         this.curStep = null;
 
         // Callbacks
+        this.setLengthCbs = [];
         this.setRootCbs = [];
         this.setTempoCbs = [];
         this.selectPatCbs = [];
@@ -57,6 +58,30 @@ export class Model
         }
 
         this.load(data);
+    }
+
+    /// Set the length of the current pattern
+    setLength(newLen)
+    {
+        let pat = this.data.patterns[this.curPat];
+        let oldLen = pat.length;
+
+        pat.notes.length = newLen;
+        pat.shift.length = newLen;
+        pat.accent.length = newLen;
+        pat.slide.length = newLen;
+
+        if (newLen > pat.length)
+        {
+            pat.notes.fill(null, oldLen);
+            pat.shift.fill(0, oldLen);
+            pat.accent.fill(0, oldLen);
+            pat.slide.fill(0, oldLen);
+        }
+
+        pat.length = newLen;
+
+        this.setLengthCbs.forEach(cb => cb(newLen, this.getPattern()));
     }
 
     setRootNote(rootNote)
@@ -116,6 +141,11 @@ export class Model
     {
         this.curStep = stepIdx;
         this.playPosCbs.forEach(cb => cb(stepIdx));
+    }
+
+    regSetLength(cb)
+    {
+        this.setLengthCbs.push(cb);
     }
 
     regSetRoot(cb)

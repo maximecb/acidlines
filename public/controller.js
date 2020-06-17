@@ -33,6 +33,11 @@ export class Controller
         // Callback to update the midi view's pattern data
         let updateMidi = () => midiView.setPattern(model.getPattern());
 
+        // Pattern length changed
+        guiView.regLength(newLen => model.setLength(newLen));
+        model.regSetLength(() => guiView.selectPat(model.curPat, model.getPattern()));
+        model.regSetLength(updateMidi);
+
         // Root note changed
         guiView.regRoot(rootNote => model.setRootNote(rootNote));
         model.regSetRoot(rootNote => guiView.setRootNote(rootNote));
@@ -43,11 +48,9 @@ export class Controller
         model.regSetTempo(tempo => guiView.setTempo(tempo));
         model.regSetTempo(tempo => midiView.setTempo(tempo));
 
+        // New pattern selected
         model.regSelectPat((idx, pat) => guiView.selectPat(idx, pat));
         model.regSelectPat(updateMidi);
-
-        model.regSetLength(l => guiView.setLength(l));
-        model.regSetLength(updateMidi);
 
         // Note update callbacks
         guiView.regNoteClick(noteClick);
