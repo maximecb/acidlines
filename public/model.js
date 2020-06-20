@@ -19,6 +19,7 @@ export class Model
         this.selectPatCbs = [];
         this.setLengthCbs = [];
         this.setNoteCbs = [];
+        this.setSlideCbs = [];
         this.playPosCbs = [];
     }
 
@@ -126,6 +127,11 @@ export class Model
         return this.data.patterns[this.curPat].notes[stepIdx];
     }
 
+    getSlide(stepIdx)
+    {
+        return this.data.patterns[this.curPat].slide[stepIdx];
+    }
+
     setNote(stepIdx, note)
     {
         if (note !== null && (note < 0 || note >= 12))
@@ -135,6 +141,14 @@ export class Model
 
         // Notify the listeners of the update
         this.setNoteCbs.forEach(cb => cb(stepIdx, note));
+    }
+
+    setSlide(stepIdx, val)
+    {
+        // We use 1/0 because it's shorter in JSON format
+        val = val? 1:0;
+        this.data.patterns[this.curPat].slide[stepIdx] = val;
+        this.setSlideCbs.forEach(cb => cb(stepIdx, val));
     }
 
     setPlayPos(stepIdx)
@@ -171,6 +185,11 @@ export class Model
     regSetNote(cb)
     {
         this.setNoteCbs.push(cb);
+    }
+
+    regSetSlide(cb)
+    {
+        this.setSlideCbs.push(cb);
     }
 
     regPlayPos(cb)

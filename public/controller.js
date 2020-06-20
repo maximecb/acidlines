@@ -16,6 +16,13 @@ export class Controller
                 model.setNote(stepIdx, noteIdx);
         }
 
+        // Slide clicked in the view
+        function slideClick(stepIdx)
+        {
+            let curVal = model.getSlide(stepIdx);
+            model.setSlide(stepIdx, !curVal);
+        }
+
         // Play button clicked
         function play()
         {
@@ -52,10 +59,15 @@ export class Controller
         model.regSelectPat((idx, pat) => guiView.selectPat(idx, pat));
         model.regSelectPat(updateMidi);
 
-        // Note update callbacks
+        // Note update
         guiView.regNoteClick(noteClick);
         model.regSetNote((stepIdx, noteIdx) => guiView.setNote(stepIdx, noteIdx));
         model.regSetNote(updateMidi);
+
+        // Slide update
+        guiView.regSlideClick(slideClick);
+        model.regSetSlide((stepIdx, val) => guiView.setSlide(stepIdx, val));
+        model.regSetSlide(updateMidi);
 
         // Play/stop
         guiView.regPlay(play);

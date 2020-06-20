@@ -10,7 +10,7 @@ class Cell
         this.cssPrefix = cssPrefix;
 
         // Current cell state, on/off and highlighting
-        this.on = false;
+        this.val = false;
         this.light = false;
 
         // The outer cell div is the element reacting to clicks
@@ -251,6 +251,13 @@ export class GUIView
         {
             col[i].setState(noteIdx === i);
         }
+    }
+
+    /// Set the slide for a given step
+    setSlide(stepIdx, val)
+    {
+        // For each cell in this column
+        this.slideCells[stepIdx].setState(val);
     }
 
     /// Highlight the currently playing note
