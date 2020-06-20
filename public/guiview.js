@@ -1,9 +1,60 @@
 import * as music from './music.js';
 
 const numRows = 12;
-const onColor = 'rgb(255, 0, 0)';
-const offColor = 'rgb(150, 0, 0)';
-const highColor = 'rgb(255, 255, 255)';
+
+class Cell
+{
+    constructor(cssPrefix, stepIdx, rowIdx, cbList)
+    {
+        // CSS class name prefix
+        this.cssPrefix = cssPrefix;
+
+        // Current cell state, on/off and highlighting
+        this.on = false;
+        this.light = false;
+
+        // The outer cell div is the element reacting to clicks
+        // It's larger and therefore easier to click
+        this.cellDiv = document.createElement('div');
+        this.cellDiv.style['display'] = 'inline-block';
+
+        // The inner div is the colored/highlighted element
+        this.innerDiv = document.createElement('div');
+        this.innerDiv.style['margin-left'] = (stepIdx%4 == 0)? '3px':'2px';
+        this.innerDiv.style['margin-right'] = (stepIdx%4 == 3)? '3px':'2px';
+        this._setClassName();
+        this.cellDiv.appendChild(this.innerDiv);
+
+        function noteClick()
+        {
+            cbList.forEach(cb => cb(stepIdx, rowIdx));
+        }
+
+        this.cellDiv.onclick = noteClick;
+    }
+
+    _setClassName()
+    {
+        if (this.light)
+            this.innerDiv.className = this.cssPrefix + ' ' + this.cssPrefix + '_light';
+        else if (this.on)
+            this.innerDiv.className = this.cssPrefix + ' ' + this.cssPrefix + '_on';
+        else
+            this.innerDiv.className = this.cssPrefix
+    }
+
+    setState(v)
+    {
+        this.on = v;
+        this._setClassName();
+    }
+
+    setLight(v)
+    {
+        this.light = v;
+        this._setClassName();
+    }
+}
 
 export class GUIView
 {
@@ -19,8 +70,8 @@ export class GUIView
         // Fetch the pattern div
         this.patDiv = document.getElementById('pat_div');
 
-        // The cell divs are indexed by step index
-        this.cellDivs = [];
+        // The cells are indexed by step index
+        this.noteCells = [];
 
         // Currently playing/highlighted step (null if not playing)
         this.playPos = null;
@@ -107,40 +158,8 @@ export class GUIView
 
         let view = this;
 
-        function makeCell(stepIdx, noteIdx, cellOn)
-        {
-            // The outer cell div is the element reacting to clicks
-            // It's larger and therefore easier to click
-            var cell = document.createElement('div');
-            cell.style['display'] = 'inline-block';
-
-            // The inner div is the colored/highlighted element
-            var inner = document.createElement('div');
-            inner.style['display'] = 'inline-block';
-            inner.style['width'] = '14px';
-            inner.style['height'] = '14px';
-            inner.style['margin'] = '2px';
-            inner.style['margin-left'] = (stepIdx%4 == 0)? '3px':'2px';
-            inner.style['margin-right'] = (stepIdx%4 == 3)? '3px':'2px';
-            inner.style['background-color'] = cellOn? onColor:offColor;
-            cell.appendChild(inner);
-
-            // Store a reference to the inner div
-            view.cellDivs[stepIdx][noteIdx] = inner;
-
-            // Notify the callback when this cell is clicked
-            let callCb = cb => cb(stepIdx, noteIdx);
-            cell.onclick = () => view.noteClickCbs.forEach(callCb);
-
-            return cell;
-        }
-
         function makeBar(barIdx, barLen)
         {
-            console.log('barLen:', barLen);
-            console.log('numBars:', numBars);
-            console.log('numFullBars:', numFullBars);
-
             var bar = document.createElement('div');
             bar.style['display'] = 'inline-block';
             bar.style['margin'] = '0px 2px';
@@ -152,10 +171,10 @@ export class GUIView
 
                 for (var i = 0; i < barLen; ++i)
                 {
-                    var stepIdx = barIdx * 16 + i;
-                    let cellOn = (patData.notes[stepIdx] === rowIdx);
-                    var cell = makeCell(stepIdx, rowIdx, cellOn);
-                    row.appendChild(cell);
+                    let stepIdx = barIdx * 16 + i;
+                    let cell = new Cell('note', stepIdx, rowIdx, view.noteClickCbs);
+                    row.appendChild(cell.cellDiv);
+                    view.noteCells[stepIdx][rowIdx] = cell;
                 }
 
                 bar.appendChild(row);
@@ -170,7 +189,7 @@ export class GUIView
 
         // Clear the cell divs arrays
         for (let i = 0; i < numSteps; ++i)
-            this.cellDivs[i] = [];
+            this.noteCells[i] = [];
 
         for (var barIdx = 0; barIdx < numBars; ++barIdx)
         {
@@ -195,6 +214,17 @@ export class GUIView
                 barDiv.appendChild(sep);
             }
         }
+
+
+        // TODO:
+        // Set the cell states
+        //let cellOn = (patData.notes[stepIdx] === rowIdx);
+
+
+
+
+
+
     }
 
     /// Set the note index for a given step
@@ -202,13 +232,11 @@ export class GUIView
     {
         console.log('view.setNote', stepIdx, noteIdx);
 
-        let col = this.cellDivs[stepIdx];
-
         // For each cell in this column
+        let col = this.noteCells[stepIdx];
         for (let i = 0; i < col.length; ++i)
         {
-            let cellOn = (noteIdx === i);
-            col[i].style['background-color'] = cellOn? onColor:offColor;
+            col[i].setState(noteIdx === i);
         }
     }
 
@@ -219,12 +247,10 @@ export class GUIView
         if (this.playPos !== null)
         {
             // For each cell in this column
-            let col = this.cellDivs[this.playPos];
+            let col = this.noteCells[this.playPos];
             for (let i = 0; i < col.length; ++i)
             {
-                let curColor = col[i].style['background-color'];
-                let cellHigh = curColor == highColor;
-                col[i].style['background-color'] = cellHigh? onColor:curColor;
+                col[i].setLight(false);
             }
         }
 
@@ -232,16 +258,12 @@ export class GUIView
         if (stepIdx !== null)
         {
             // For each cell in this column
-            let col = this.cellDivs[stepIdx];
+            let col = this.noteCells[stepIdx];
             for (let i = 0; i < col.length; ++i)
             {
-                let curColor = col[i].style['background-color'];
-                let cellOn = curColor == onColor;
-                col[i].style['background-color'] = cellOn? highColor:curColor;
+                col[i].setLight(col[i].on);
             }
         }
-
-        console.log('playPos: ', stepIdx);
 
         this.playPos = stepIdx;
     }

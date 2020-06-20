@@ -147,7 +147,7 @@ div.tabcontent
 }
 
 #pat_div {
-    width: 700px;
+    width: 680px;
     margin: 12px auto;
     border: 1px solid #555;
     padding: 2px;
@@ -171,15 +171,6 @@ div.tabcontent
 .button {
     margin: 0px 6px;
 }
-
-
-
-
-
-
-
-
-
 
 div.patsel_btn
 {
@@ -211,6 +202,25 @@ div.patsel_btn_queue
     width: 18;
     margin-left: 2;
     margin-right: 2;
+}
+
+div.note
+{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    background-color: rgb(150, 0, 0);
+}
+
+div.note_on
+{
+    background-color: rgb(255, 0, 0);
+}
+
+div.note_light
+{
+    background-color: rgb(255, 255, 255);
 }
 
 /****************************************************************************/
