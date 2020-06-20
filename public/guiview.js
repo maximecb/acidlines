@@ -35,7 +35,7 @@ class Cell
 
     _setClassName()
     {
-        if (this.light)
+        if (this.light && this.on)
             this.innerDiv.className = this.cssPrefix + ' ' + this.cssPrefix + '_light';
         else if (this.on)
             this.innerDiv.className = this.cssPrefix + ' ' + this.cssPrefix + '_on';
@@ -73,6 +73,7 @@ export class GUIView
         // The cells are indexed by step index
         this.noteCells = [];
         this.slideCells = [];
+        this.accentCells = [];
 
         // Currently playing/highlighted step (null if not playing)
         this.playPos = null;
@@ -80,6 +81,7 @@ export class GUIView
         // Callbacks that can be registered on the GUI view
         this.noteClickCbs = [];
         this.slideClickCbs = [];
+        this.accentClickCbs = [];
         this.playCbs = [];
         this.stopCbs = [];
         this.lengthCbs = [];
@@ -193,6 +195,17 @@ export class GUIView
             }
             bar.appendChild(row);
 
+            // Create the accent cells
+            var row = document.createElement('div');
+            for (var i = 0; i < barLen; ++i)
+            {
+                let stepIdx = barIdx * 16 + i;
+                let cell = new Cell('accent', stepIdx, rowIdx, view.slideClickCbs);
+                row.appendChild(cell.cellDiv);
+                view.slideCells[stepIdx] = cell;
+            }
+            bar.appendChild(row);
+
             return bar;
         }
 
@@ -281,7 +294,7 @@ export class GUIView
             let col = this.noteCells[stepIdx];
             for (let i = 0; i < col.length; ++i)
             {
-                col[i].setLight(col[i].on);
+                col[i].setLight(true);
             }
         }
 

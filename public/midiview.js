@@ -47,6 +47,7 @@ export class MIDIView
             // Get the next note to be sent
             let stepIdx = nextStep % this.pat.length;
             let note = this.pat.notes[stepIdx];
+            let slide = this.pat.slide[stepIdx];
 
             // Set the playback position when the note is playing
             let updateCb = () => this.playPosCbs.forEach(cb => cb(stepIdx));
@@ -66,8 +67,13 @@ export class MIDIView
             let noteNo = note + this.rootNote;
 
             // Time at which to send the note on and off
+            // To signal a slide through MIDI, we overlap with the next note
             let onTime = nextStepPos + playStart;
-            let offTime = onTime + stepLen - 1;
+            //let offTime = onTime + (slide? (2*stepLen - 20):(stepLen - 20));
+            let offTime = onTime + (slide? (stepLen + 20):(stepLen - 20));
+
+            if (slide)
+                console.log('slide!!!');
 
             console.log(noteNo);
 

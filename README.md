@@ -1,5 +1,6 @@
 # AcidLines
 
+**Server not yet online, coming soon!**
 Try AcidLines at [acid.musictools.live](acid.musictools.live).
 
 ## Development Setup Instructions
