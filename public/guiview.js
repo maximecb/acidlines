@@ -72,12 +72,14 @@ export class GUIView
 
         // The cells are indexed by step index
         this.noteCells = [];
+        this.slideCells = [];
 
         // Currently playing/highlighted step (null if not playing)
         this.playPos = null;
 
         // Callbacks that can be registered on the GUI view
         this.noteClickCbs = [];
+        this.slideClickCbs = [];
         this.playCbs = [];
         this.stopCbs = [];
         this.lengthCbs = [];
@@ -179,6 +181,17 @@ export class GUIView
 
                 bar.appendChild(row);
             }
+
+            // Create the slide cells
+            var row = document.createElement('div');
+            for (var i = 0; i < barLen; ++i)
+            {
+                let stepIdx = barIdx * 16 + i;
+                let cell = new Cell('slide', stepIdx, rowIdx, view.slideClickCbs);
+                row.appendChild(cell.cellDiv);
+                view.slideCells[stepIdx] = cell;
+            }
+            bar.appendChild(row);
 
             return bar;
         }
@@ -293,6 +306,12 @@ export class GUIView
     regNoteClick(cb)
     {
         this.noteClickCbs.push(cb);
+    }
+
+    /// Handler for when a slide grid cell is clicked
+    regSlideClick(cb)
+    {
+        this.slideClickCbs.push(cb);
     }
 
     regPlay(cb)

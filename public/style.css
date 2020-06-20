@@ -223,6 +223,20 @@ div.note_light
     background-color: rgb(255, 255, 255);
 }
 
+div.slide
+{
+    display: inline-block;
+    width: 14px;
+    height: 12px;
+    margin: 2px;
+    background-color: rgb(139, 64, 0);
+}
+
+div.slide_on
+{
+    background-color: rgb(255, 200, 0);
+}
+
 /****************************************************************************/
 
 /* Modal dialog box */
