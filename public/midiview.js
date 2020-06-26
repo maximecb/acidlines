@@ -48,6 +48,7 @@ export class MIDIView
             let stepIdx = nextStep % this.pat.length;
             let note = this.pat.notes[stepIdx];
             let slide = this.pat.slide[stepIdx];
+            let accent = this.pat.accent[stepIdx];
 
             // Set the playback position when the note is playing
             let updateCb = () => this.playPosCbs.forEach(cb => cb(stepIdx));
@@ -69,15 +70,14 @@ export class MIDIView
             // Time at which to send the note on and off
             // To signal a slide through MIDI, we overlap with the next note
             let onTime = nextStepPos + playStart;
-            //let offTime = onTime + (slide? (2*stepLen - 20):(stepLen - 20));
             let offTime = onTime + (slide? (stepLen + 20):(stepLen - 20));
 
-            if (slide)
-                console.log('slide!!!');
+            // The accent determines the velocity
+            let vel = accent? 127:63;
 
             console.log(noteNo);
 
-            let noteOn = midi.noteOn(noteNo);
+            let noteOn = midi.noteOn(noteNo, vel);
             let noteOff = midi.noteOff(noteNo);
             midi.sendAll(noteOn, onTime);
             midi.sendAll(noteOff, offTime);

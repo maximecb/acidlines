@@ -19,6 +19,7 @@ export class Model
         this.selectPatCbs = [];
         this.setLengthCbs = [];
         this.setNoteCbs = [];
+        this.setAccentCbs = [];
         this.setSlideCbs = [];
         this.playPosCbs = [];
     }
@@ -127,6 +128,11 @@ export class Model
         return this.data.patterns[this.curPat].notes[stepIdx];
     }
 
+    getAccent(stepIdx)
+    {
+        return this.data.patterns[this.curPat].accent[stepIdx];
+    }
+
     getSlide(stepIdx)
     {
         return this.data.patterns[this.curPat].slide[stepIdx];
@@ -141,6 +147,14 @@ export class Model
 
         // Notify the listeners of the update
         this.setNoteCbs.forEach(cb => cb(stepIdx, note));
+    }
+
+    setAccent(stepIdx, val)
+    {
+        // We use 1/0 because it's shorter in JSON format
+        val = val? 1:0;
+        this.data.patterns[this.curPat].accent[stepIdx] = val;
+        this.setAccentCbs.forEach(cb => cb(stepIdx, val));
     }
 
     setSlide(stepIdx, val)
@@ -185,6 +199,11 @@ export class Model
     regSetNote(cb)
     {
         this.setNoteCbs.push(cb);
+    }
+
+    regSetAccent(cb)
+    {
+        this.setAccentCbs.push(cb);
     }
 
     regSetSlide(cb)

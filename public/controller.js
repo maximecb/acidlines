@@ -16,6 +16,13 @@ export class Controller
                 model.setNote(stepIdx, noteIdx);
         }
 
+        // Accent clicked in the view
+        function accentClick(stepIdx)
+        {
+            let curVal = model.getAccent(stepIdx);
+            model.setAccent(stepIdx, !curVal);
+        }
+
         // Slide clicked in the view
         function slideClick(stepIdx)
         {
@@ -63,6 +70,11 @@ export class Controller
         guiView.regNoteClick(noteClick);
         model.regSetNote((stepIdx, noteIdx) => guiView.setNote(stepIdx, noteIdx));
         model.regSetNote(updateMidi);
+
+        // Accent update
+        guiView.regAccentClick(accentClick);
+        model.regSetAccent((stepIdx, val) => guiView.setAccent(stepIdx, val));
+        model.regSetAccent(updateMidi);
 
         // Slide update
         guiView.regSlideClick(slideClick);

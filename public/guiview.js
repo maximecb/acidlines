@@ -200,9 +200,9 @@ export class GUIView
             for (var i = 0; i < barLen; ++i)
             {
                 let stepIdx = barIdx * 16 + i;
-                let cell = new Cell('accent', stepIdx, rowIdx, view.slideClickCbs);
+                let cell = new Cell('accent', stepIdx, rowIdx, view.accentClickCbs);
                 row.appendChild(cell.cellDiv);
-                view.slideCells[stepIdx] = cell;
+                view.accentCells[stepIdx] = cell;
             }
             bar.appendChild(row);
 
@@ -266,6 +266,13 @@ export class GUIView
         }
     }
 
+    /// Set the accent for a given step
+    setAccent(stepIdx, val)
+    {
+        // For each cell in this column
+        this.accentCells[stepIdx].setState(val);
+    }
+
     /// Set the slide for a given step
     setSlide(stepIdx, val)
     {
@@ -326,6 +333,12 @@ export class GUIView
     regNoteClick(cb)
     {
         this.noteClickCbs.push(cb);
+    }
+
+    /// Handler for when an accent grid cell is clicked
+    regAccentClick(cb)
+    {
+        this.accentClickCbs.push(cb);
     }
 
     /// Handler for when a slide grid cell is clicked
