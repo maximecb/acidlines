@@ -184,17 +184,6 @@ export class GUIView
                 bar.appendChild(row);
             }
 
-            // Create the slide cells
-            var row = document.createElement('div');
-            for (var i = 0; i < barLen; ++i)
-            {
-                let stepIdx = barIdx * 16 + i;
-                let cell = new Cell('slide', stepIdx, rowIdx, view.slideClickCbs);
-                row.appendChild(cell.cellDiv);
-                view.slideCells[stepIdx] = cell;
-            }
-            bar.appendChild(row);
-
             // Create the accent cells
             var row = document.createElement('div');
             for (var i = 0; i < barLen; ++i)
@@ -203,6 +192,17 @@ export class GUIView
                 let cell = new Cell('accent', stepIdx, rowIdx, view.accentClickCbs);
                 row.appendChild(cell.cellDiv);
                 view.accentCells[stepIdx] = cell;
+            }
+            bar.appendChild(row);
+
+            // Create the slide cells
+            var row = document.createElement('div');
+            for (var i = 0; i < barLen; ++i)
+            {
+                let stepIdx = barIdx * 16 + i;
+                let cell = new Cell('slide', stepIdx, rowIdx, view.slideClickCbs);
+                row.appendChild(cell.cellDiv);
+                view.slideCells[stepIdx] = cell;
             }
             bar.appendChild(row);
 

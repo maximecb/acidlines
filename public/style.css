@@ -223,20 +223,6 @@ div.note_light
     background-color: rgb(255, 255, 255);
 }
 
-div.slide
-{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    margin: 2px;
-    background-color: rgb(0, 64, 100);
-}
-
-div.slide_on
-{
-    background-color: rgb(0, 0, 255);
-}
-
 div.accent
 {
     display: inline-block;
@@ -249,6 +235,20 @@ div.accent
 div.accent_on
 {
     background-color: rgb(255, 200, 0);
+}
+
+div.slide
+{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    background-color: rgb(0, 64, 100);
+}
+
+div.slide_on
+{
+    background-color: rgb(0, 0, 255);
 }
 
 /****************************************************************************/

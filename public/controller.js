@@ -19,6 +19,7 @@ export class Controller
         // Accent clicked in the view
         function accentClick(stepIdx)
         {
+            console.log('accent click')
             let curVal = model.getAccent(stepIdx);
             model.setAccent(stepIdx, !curVal);
         }
@@ -26,6 +27,7 @@ export class Controller
         // Slide clicked in the view
         function slideClick(stepIdx)
         {
+            console.log('slide click')
             let curVal = model.getSlide(stepIdx);
             model.setSlide(stepIdx, !curVal);
         }
