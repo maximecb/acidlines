@@ -24,6 +24,18 @@ export class Controller
             model.setAccent(stepIdx, !curVal);
         }
 
+        // Shift up/down clicked in the view
+        function shiftClick(stepIdx, val)
+        {
+            console.log('shift click', val)
+            let curVal = model.getShift(stepIdx);
+
+            if (val === curVal)
+                model.setShift(stepIdx, 0);
+            else
+                model.setShift(stepIdx, val);
+        }
+
         // Slide clicked in the view
         function slideClick(stepIdx)
         {
@@ -85,6 +97,11 @@ export class Controller
         guiView.regAccentClick(accentClick);
         model.regSetAccent((stepIdx, val) => guiView.setAccent(stepIdx, val));
         model.regSetAccent(updateMidi);
+
+        // Shift update
+        guiView.regShiftClick(shiftClick);
+        model.regSetShift((stepIdx, val) => guiView.setShift(stepIdx, val));
+        model.regSetShift(updateMidi);
 
         // Slide update
         guiView.regSlideClick(slideClick);
