@@ -205,8 +205,8 @@ export class GUIView
             for (var i = 0; i < barLen; ++i)
             {
                 let stepIdx = barIdx * 16 + i;
-                let upCell = new Cell('shift', stepIdx, +1, view.shiftClickCbs);
-                let dnCell = new Cell('shift', stepIdx, -1, view.shiftClickCbs);
+                let upCell = new Cell('shiftup', stepIdx, +1, view.shiftClickCbs);
+                let dnCell = new Cell('shiftdn', stepIdx, -1, view.shiftClickCbs);
                 upRow.appendChild(upCell.cellDiv);
                 dnRow.appendChild(dnCell.cellDiv);
                 view.shiftCells[stepIdx][1] = upCell;
@@ -226,19 +226,25 @@ export class GUIView
             }
             bar.appendChild(row);
 
-            // TODO: sustain cells
-
-
-
-
-
+            // Create the sustain cells
+            var row = document.createElement('div');
+            for (var i = 0; i < barLen; ++i)
+            {
+                let stepIdx = barIdx * 16 + i;
+                let cell = new Cell('sustain', stepIdx, 0, view.sustainClickCbs);
+                row.appendChild(cell.cellDiv);
+                view.sustainCells[stepIdx] = cell;
+            }
+            bar.appendChild(row);
 
             return bar;
         }
 
         // Remove the old bar divs
         while (this.patDiv.firstChild)
+        {
             this.patDiv.firstChild.remove();
+        }
 
         // Clear the cell divs arrays
         for (let i = 0; i < numSteps; ++i)
@@ -271,9 +277,8 @@ export class GUIView
             }
         }
 
-
         // TODO:
-        // Set the cell states
+        // Set the cell states from the pattern data
         //let cellOn = (patData.notes[stepIdx] === rowIdx);
 
 
@@ -299,15 +304,28 @@ export class GUIView
     /// Set the accent for a given step
     setAccent(stepIdx, val)
     {
-        // For each cell in this column
         this.accentCells[stepIdx].setState(val);
+    }
+
+    /// Set the shift for a given step
+    setShift(stepIdx, val)
+    {
+        let upOn = (val == 1);
+        let dnOn = (val == -1);
+        this.shiftCells[stepIdx][1].setState(upOn);
+        this.shiftCells[stepIdx][0].setState(dnOn);
     }
 
     /// Set the slide for a given step
     setSlide(stepIdx, val)
     {
-        // For each cell in this column
         this.slideCells[stepIdx].setState(val);
+    }
+
+    /// Set the sustain for a given step
+    setSustain(stepIdx, val)
+    {
+        this.sustainCells[stepIdx].setState(val);
     }
 
     /// Highlight the currently playing note
@@ -371,10 +389,22 @@ export class GUIView
         this.accentClickCbs.push(cb);
     }
 
+    /// Handler for when a shift grid cell is clicked
+    regShiftClick(cb)
+    {
+        this.shiftClickCbs.push(cb);
+    }
+
     /// Handler for when a slide grid cell is clicked
     regSlideClick(cb)
     {
         this.slideClickCbs.push(cb);
+    }
+
+    /// Handler for when a sustain grid cell is clicked
+    regSustainClick(cb)
+    {
+        this.sustainClickCbs.push(cb);
     }
 
     regPlay(cb)

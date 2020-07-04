@@ -234,10 +234,24 @@ div.accent
 
 div.accent_on
 {
-    background-color: rgb(255, 200, 0);
+    background-color: rgb(255, 153, 0);
 }
 
-div.shift
+div.shiftup
+{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    background-color: rgb(128, 128, 0);
+}
+
+div.shiftup_on
+{
+    background-color: rgb(255, 255, 0);
+}
+
+div.shiftdn
 {
     display: inline-block;
     width: 14px;
@@ -246,7 +260,7 @@ div.shift
     background-color: rgb(0, 139, 0);
 }
 
-div.shift_on
+div.shiftdn_on
 {
     background-color: rgb(0, 255, 0);
 }
@@ -257,12 +271,26 @@ div.slide
     width: 14px;
     height: 14px;
     margin: 2px;
-    background-color: rgb(0, 64, 100);
+    background-color: rgb(0, 51, 128);
 }
 
 div.slide_on
 {
-    background-color: rgb(0, 0, 255);
+    background-color: rgb(0, 102, 255);
+}
+
+div.sustain
+{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    background-color: rgb(61, 0, 102);
+}
+
+div.sustain_on
+{
+    background-color: rgb(153, 0, 255);
 }
 
 /****************************************************************************/
