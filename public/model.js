@@ -20,7 +20,9 @@ export class Model
         this.setLengthCbs = [];
         this.setNoteCbs = [];
         this.setAccentCbs = [];
+        this.setShiftCbs = [];
         this.setSlideCbs = [];
+        this.setSustainCbs = [];
         this.playPosCbs = [];
     }
 
@@ -51,6 +53,7 @@ export class Model
                     shift: Array(16).fill(0),
                     accent: Array(16).fill(0),
                     slide: Array(16).fill(0),
+                    sustain: Array(16).fill(0),
                 }
             ],
 
@@ -157,12 +160,29 @@ export class Model
         this.setAccentCbs.forEach(cb => cb(stepIdx, val));
     }
 
+    setShift(stepIdx, val)
+    {
+        if (!(val === -1 || val === 0 || val === 1))
+            throw RangeError('invalid shift value');
+
+        this.data.patterns[this.curPat].shift[stepIdx] = val;
+        this.setShiftCbs.forEach(cb => cb(stepIdx, val));
+    }
+
     setSlide(stepIdx, val)
     {
         // We use 1/0 because it's shorter in JSON format
         val = val? 1:0;
         this.data.patterns[this.curPat].slide[stepIdx] = val;
         this.setSlideCbs.forEach(cb => cb(stepIdx, val));
+    }
+
+    setSustain(stepIdx, val)
+    {
+        // We use 1/0 because it's shorter in JSON format
+        val = val? 1:0;
+        this.data.patterns[this.curPat].sustain[stepIdx] = val;
+        this.setSustainCbs.forEach(cb => cb(stepIdx, val));
     }
 
     setPlayPos(stepIdx)
@@ -206,9 +226,19 @@ export class Model
         this.setAccentCbs.push(cb);
     }
 
+    regSetShift(cb)
+    {
+        this.setShiftCbs.push(cb);
+    }
+
     regSetSlide(cb)
     {
         this.setSlideCbs.push(cb);
+    }
+
+    regSetSustain(cb)
+    {
+        this.setSustainCbs.push(cb);
     }
 
     regPlayPos(cb)
