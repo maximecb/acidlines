@@ -73,7 +73,9 @@ export class GUIView
         // The cells are indexed by step index
         this.noteCells = [];
         this.slideCells = [];
+        this.shiftCells = [];
         this.accentCells = [];
+        this.sustainCells = [];
 
         // Currently playing/highlighted step (null if not playing)
         this.playPos = null;
@@ -81,7 +83,9 @@ export class GUIView
         // Callbacks that can be registered on the GUI view
         this.noteClickCbs = [];
         this.slideClickCbs = [];
+        this.shiftClickCbs = [];
         this.accentClickCbs = [];
+        this.sustainClickCbs = [];
         this.playCbs = [];
         this.stopCbs = [];
         this.lengthCbs = [];
@@ -189,22 +193,45 @@ export class GUIView
             for (var i = 0; i < barLen; ++i)
             {
                 let stepIdx = barIdx * 16 + i;
-                let cell = new Cell('accent', stepIdx, rowIdx, view.accentClickCbs);
+                let cell = new Cell('accent', stepIdx, 0, view.accentClickCbs);
                 row.appendChild(cell.cellDiv);
                 view.accentCells[stepIdx] = cell;
             }
             bar.appendChild(row);
+
+            // Create the shift cells
+            var upRow = document.createElement('div');
+            var dnRow = document.createElement('div');
+            for (var i = 0; i < barLen; ++i)
+            {
+                let stepIdx = barIdx * 16 + i;
+                let upCell = new Cell('shift', stepIdx, +1, view.shiftClickCbs);
+                let dnCell = new Cell('shift', stepIdx, -1, view.shiftClickCbs);
+                upRow.appendChild(upCell.cellDiv);
+                dnRow.appendChild(dnCell.cellDiv);
+                view.shiftCells[stepIdx][1] = upCell;
+                view.shiftCells[stepIdx][0] = dnCell;
+            }
+            bar.appendChild(upRow);
+            bar.appendChild(dnRow);
 
             // Create the slide cells
             var row = document.createElement('div');
             for (var i = 0; i < barLen; ++i)
             {
                 let stepIdx = barIdx * 16 + i;
-                let cell = new Cell('slide', stepIdx, rowIdx, view.slideClickCbs);
+                let cell = new Cell('slide', stepIdx, 0, view.slideClickCbs);
                 row.appendChild(cell.cellDiv);
                 view.slideCells[stepIdx] = cell;
             }
             bar.appendChild(row);
+
+            // TODO: sustain cells
+
+
+
+
+
 
             return bar;
         }
@@ -215,7 +242,10 @@ export class GUIView
 
         // Clear the cell divs arrays
         for (let i = 0; i < numSteps; ++i)
+        {
             this.noteCells[i] = [];
+            this.shiftCells[i] = []
+        }
 
         for (var barIdx = 0; barIdx < numBars; ++barIdx)
         {
