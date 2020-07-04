@@ -32,6 +32,14 @@ export class Controller
             model.setSlide(stepIdx, !curVal);
         }
 
+        // Sustain clicked in the view
+        function sustainClick(stepIdx)
+        {
+            console.log('sustain click')
+            let curVal = model.getSustain(stepIdx);
+            model.setSustain(stepIdx, !curVal);
+        }
+
         // Play button clicked
         function play()
         {
@@ -82,6 +90,11 @@ export class Controller
         guiView.regSlideClick(slideClick);
         model.regSetSlide((stepIdx, val) => guiView.setSlide(stepIdx, val));
         model.regSetSlide(updateMidi);
+
+        // Sustain update
+        guiView.regSustainClick(sustainClick);
+        model.regSetSustain((stepIdx, val) => guiView.setSustain(stepIdx, val));
+        model.regSetSustain(updateMidi);
 
         // Play/stop
         guiView.regPlay(play);

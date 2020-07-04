@@ -136,9 +136,19 @@ export class Model
         return this.data.patterns[this.curPat].accent[stepIdx];
     }
 
+    getShift(stepIdx)
+    {
+        return this.data.patterns[this.curPat].shift[stepIdx];
+    }
+
     getSlide(stepIdx)
     {
         return this.data.patterns[this.curPat].slide[stepIdx];
+    }
+
+    getSustain(stepIdx)
+    {
+        return this.data.patterns[this.curPat].sustain[stepIdx];
     }
 
     setNote(stepIdx, note)
