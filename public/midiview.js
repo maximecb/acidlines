@@ -47,6 +47,7 @@ export class MIDIView
             // Get the next note to be sent
             let stepIdx = nextStep % this.pat.length;
             let note = this.pat.notes[stepIdx];
+            let shift = this.pat.shift[stepIdx];
             let slide = this.pat.slide[stepIdx];
             let accent = this.pat.accent[stepIdx];
 
@@ -65,7 +66,7 @@ export class MIDIView
                 return;
 
             // Compute the note number
-            let noteNo = note + this.rootNote;
+            let noteNo = note + this.rootNote + 12 * shift;
 
             // Time at which to send the note on and off
             // To signal a slide through MIDI, we overlap with the next note
