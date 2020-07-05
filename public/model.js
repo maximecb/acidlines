@@ -50,8 +50,8 @@ export class Model
                 {
                     length: 16,
                     notes: Array(16).fill(null),
-                    shift: Array(16).fill(0),
                     accent: Array(16).fill(0),
+                    shift: Array(16).fill(0),
                     slide: Array(16).fill(0),
                     sustain: Array(16).fill(0),
                 }
@@ -72,16 +72,18 @@ export class Model
         let oldLen = pat.length;
 
         pat.notes.length = newLen;
-        pat.shift.length = newLen;
         pat.accent.length = newLen;
+        pat.shift.length = newLen;
         pat.slide.length = newLen;
+        pat.sustain.length = newLen;
 
         if (newLen > pat.length)
         {
             pat.notes.fill(null, oldLen);
-            pat.shift.fill(0, oldLen);
             pat.accent.fill(0, oldLen);
+            pat.shift.fill(0, oldLen);
             pat.slide.fill(0, oldLen);
+            pat.sustain.fill(0, oldLen);
         }
 
         pat.length = newLen;
@@ -109,9 +111,10 @@ export class Model
         return {
             length: pat.length,
             notes: [...pat.notes],
-            shift: [...pat.shift],
             accent: [...pat.accent],
+            shift: [...pat.shift],
             slide: [...pat.slide],
+            sustain: [...pat.sustain],
         };
     }
 

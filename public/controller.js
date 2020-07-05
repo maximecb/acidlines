@@ -5,6 +5,8 @@ export class Controller
         // Note clicked in the view
         function noteClick(stepIdx, noteIdx)
         {
+            console.log('note click', stepIdx, noteIdx);
+
             let curNote = model.getNote(stepIdx);
 
             console.log(stepIdx, noteIdx);

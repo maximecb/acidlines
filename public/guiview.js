@@ -277,15 +277,15 @@ export class GUIView
             }
         }
 
-        // TODO:
         // Set the cell states from the pattern data
-        //let cellOn = (patData.notes[stepIdx] === rowIdx);
-
-
-
-
-
-
+        for (let stepIdx = 0; stepIdx < numSteps; ++stepIdx)
+        {
+            this.setNote(stepIdx, patData.notes[stepIdx]);
+            this.setAccent(stepIdx, patData.accent[stepIdx]);
+            this.setShift(stepIdx, patData.shift[stepIdx]);
+            this.setSlide(stepIdx, patData.slide[stepIdx]);
+            this.setSustain(stepIdx, patData.sustain[stepIdx]);
+        }
     }
 
     /// Set the note index for a given step
