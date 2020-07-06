@@ -46,13 +46,13 @@ export class MIDIView
 
             // Get the next note to be sent
             let stepIdx = nextStep % this.pat.length;
-            let nextStep = (nextStep + 1) % this.pat.length;
+            let nextIdx = (nextStep + 1) % this.pat.length;
             let note = this.pat.notes[stepIdx];
             let shift = this.pat.shift[stepIdx];
             let slide = this.pat.slide[stepIdx];
             let accent = this.pat.accent[stepIdx];
             let sustain = this.pat.sustain[stepIdx];
-            let nextSustain = this.pat.sustain[nextStep];
+            let nextSustain = this.pat.sustain[nextIdx];
 
             // Set the playback position when the note is playing
             let updateCb = () => this.playPosCbs.forEach(cb => cb(stepIdx));
@@ -82,11 +82,11 @@ export class MIDIView
             console.log(noteNo);
 
             // If sustain is on cur the current step, don't send a note-on
-            if (sustain)
+            if (!sustain)
                 midi.sendAll(midi.noteOn(noteNo, vel), onTime);
 
             // If sustain is on for the next step, don't send a note-off
-            if (nextSustain)
+            if (!nextSustain)
                 midi.sendAll(midi.noteOff(noteNo), offTime);
         }
 
