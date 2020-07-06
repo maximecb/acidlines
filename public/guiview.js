@@ -266,7 +266,7 @@ export class GUIView
             // If this is not the last bar, add a separator
             if (barIdx < numBars - 1)
             {
-                var barHeight = numRows * 18;
+                var barHeight = (numRows + 5) * 18;
                 var sep = document.createElement('div');
                 sep.style['display'] = 'inline-block';
                 sep.style['width'] = '3px';
