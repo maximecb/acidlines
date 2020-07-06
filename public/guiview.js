@@ -171,7 +171,7 @@ export class GUIView
             let div = document.createElement('div');
             div.style['display'] = 'inline-block';
             div.style['vertical-align'] = 'top';
-            div.style['margin'] = '0px 0px';
+            div.style['margin'] = '0px 2px';
 
             let names = [];
 
@@ -182,7 +182,7 @@ export class GUIView
                 names.push(noteName);
             }
 
-            names = names.concat(['accent', 'up', 'down', 'slide', 'sustain']);
+            names = names.concat(['up', 'down', 'accent', 'slide', 'sustain']);
 
             for (let name of names)
             {
@@ -222,17 +222,6 @@ export class GUIView
                 bar.appendChild(row);
             }
 
-            // Create the accent cells
-            var row = document.createElement('div');
-            for (var i = 0; i < barLen; ++i)
-            {
-                let stepIdx = barIdx * 16 + i;
-                let cell = new Cell('accent', stepIdx, 0, view.accentClickCbs);
-                row.appendChild(cell.cellDiv);
-                view.accentCells[stepIdx] = cell;
-            }
-            bar.appendChild(row);
-
             // Create the shift cells
             var upRow = document.createElement('div');
             var dnRow = document.createElement('div');
@@ -248,6 +237,17 @@ export class GUIView
             }
             bar.appendChild(upRow);
             bar.appendChild(dnRow);
+
+            // Create the accent cells
+            var row = document.createElement('div');
+            for (var i = 0; i < barLen; ++i)
+            {
+                let stepIdx = barIdx * 16 + i;
+                let cell = new Cell('accent', stepIdx, 0, view.accentClickCbs);
+                row.appendChild(cell.cellDiv);
+                view.accentCells[stepIdx] = cell;
+            }
+            bar.appendChild(row);
 
             // Create the slide cells
             var row = document.createElement('div');
