@@ -118,8 +118,7 @@ export class GUIView
 
         function rootChange()
         {
-            let selectIdx = this.selectRoot.selectedIndex;
-            let scaleRoot = this.selectRoot.options[selectIdx].value;
+            let scaleRoot = this.getRootNote();
             this.rootCbs.forEach(cb => cb(scaleRoot));
         }
 
@@ -160,11 +159,46 @@ export class GUIView
 
     selectPat(patIdx, patData)
     {
-        var numSteps = patData.length;
-        var numBars = Math.ceil(numSteps / 16);
-        var numFullBars = Math.floor(numSteps / 16);
+        let numSteps = patData.length;
+        let numBars = Math.ceil(numSteps / 16);
+        let numFullBars = Math.floor(numSteps / 16);
+        let rootNote = music.Note(this.getRootNote());
 
         let view = this;
+
+        function makeRowNames()
+        {
+            let div = document.createElement('div');
+            div.style['display'] = 'inline-block';
+            div.style['vertical-align'] = 'top';
+            div.style['margin'] = '0px 0px';
+
+            let names = [];
+
+            // For each row/note, in decreasing order
+            for (let rowIdx = numRows - 1; rowIdx >= 0; rowIdx--)
+            {
+                let noteName = rootNote.offset(rowIdx).getName();
+                names.push(noteName);
+            }
+
+            names = names.concat(['accent', 'up', 'down', 'slide', 'sustain']);
+
+            for (let name of names)
+            {
+                let rowCont = document.createElement('div');
+                rowCont.className = 'row_name_cont';
+
+                let rowText = document.createElement('div');
+                rowText.className = 'row_name_text';
+                rowText.innerHTML = name;
+                rowCont.appendChild(rowText);
+
+                div.appendChild(rowCont);
+            }
+
+            return div;
+        }
 
         function makeBar(barIdx, barLen)
         {
@@ -253,6 +287,10 @@ export class GUIView
             this.shiftCells[i] = []
         }
 
+        // Create the row names
+        this.patDiv.appendChild(makeRowNames());
+
+        // For each bar
         for (var barIdx = 0; barIdx < numBars; ++barIdx)
         {
             var barDiv = document.createElement('div');
@@ -286,6 +324,14 @@ export class GUIView
             this.setSlide(stepIdx, patData.slide[stepIdx]);
             this.setSustain(stepIdx, patData.sustain[stepIdx]);
         }
+    }
+
+    // Get the currently selected root note
+    getRootNote()
+    {
+        let selectIdx = this.selectRoot.selectedIndex;
+        let scaleRoot = this.selectRoot.options[selectIdx].value;
+        return scaleRoot;
     }
 
     /// Set the note index for a given step

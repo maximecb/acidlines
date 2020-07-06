@@ -204,6 +204,35 @@ div.patsel_btn_queue
     margin-right: 2;
 }
 
+
+
+
+
+
+div.row_name_cont
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    height: 18px;
+
+    /*background: red;*/
+}
+
+div.row_name_text
+{
+    margin: 0px;
+    padding: 0px;
+
+    font-size: 10px;
+}
+
+
+
+
+
 div.note
 {
     display: inline-block;
