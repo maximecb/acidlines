@@ -106,3 +106,12 @@ export function noteOff(noteNo, vel, chanNo)
     // note off, note number, full velocity
     return [0x80 + chanNo, noteNo, vel];
 }
+
+export function allNotesOff(chanNo)
+{
+    if (chanNo == undefined)
+        chanNo = 0;
+
+    // note off, note number, full velocity
+    return [0xB0 + chanNo, 0x7B, 0];
+}

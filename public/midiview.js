@@ -90,6 +90,9 @@ export class MIDIView
                 midi.sendAll(midi.noteOff(noteNo), offTime);
         }
 
+        // Stop all notes playing
+        midi.sendAll(midi.allNotesOff())
+
         // Bind the update function to this object
         update = update.bind(this);
 
@@ -112,6 +115,9 @@ export class MIDIView
     {
         if (!this.updInterv)
             return;
+
+        // Stop all notes playing
+        midi.sendAll(midi.allNotesOff())
 
         // Stop updating the playback
         clearInterval(this.updInterv);
