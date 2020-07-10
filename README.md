@@ -3,7 +3,7 @@
 AcidLines is a grid sequencer which uses the Web MIDI protocol to
 control an external synthesizer device or software plugin. It is geared
 specificallt towards 303 clones such as the TB-03 and TD-3, but is usable
-with any monophonic synthesizer with a MIDI input.
+with any synthesizer that can accept MIDI input.
 
 **Server not yet online, coming soon!**
 Try AcidLines at [acid.musictools.live](acid.musictools.live).
