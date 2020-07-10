@@ -33,6 +33,7 @@ App is then accessible at `http://localhost:7774/`
 ## Planned Features
 
 Features planned for future versions of AcidLines:
+- Acid smiley for favicon
 - Ability to queue multiple patterns into a track
 - Online sharing and browsing of patterns
 - Built-in acid synth to preview patterns or tinker without a hardware 303-clone
