@@ -6,7 +6,7 @@ specificallt towards 303 clones such as the TB-03 and TD-3, but is usable
 with any synthesizer that can accept MIDI input.
 
 **Server not yet online, coming soon!**
-Try AcidLines at [acid.musictools.live](acid.musictools.live).
+~~Try AcidLines at [acid.musictools.live](acid.musictools.live).~~
 
 ## Development Setup Instructions
 
