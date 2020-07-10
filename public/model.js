@@ -32,6 +32,9 @@ export class Model
 
         // Call selectPat to notify the callbacks
         this.selectPat(0)
+
+        // Select the root note
+        this.setRootNote(data.rootNote);
     }
 
     new()

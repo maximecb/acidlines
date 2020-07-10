@@ -70,6 +70,9 @@ export class GUIView
         // Fetch the pattern div
         this.patDiv = document.getElementById('pat_div');
 
+        // Fetch the row names div
+        this.rowDiv = document.getElementById('row_names_div');
+
         // The cells are indexed by step index
         this.noteCells = [];
         this.slideCells = [];
@@ -170,7 +173,6 @@ export class GUIView
         {
             let div = document.createElement('div');
             div.style['display'] = 'inline-block';
-            div.style['vertical-align'] = 'top';
             div.style['margin'] = '0px 2px';
 
             let names = [];
@@ -274,10 +276,15 @@ export class GUIView
             return bar;
         }
 
-        // Remove the old bar divs
+        // Remove the old bars
         while (this.patDiv.firstChild)
         {
             this.patDiv.firstChild.remove();
+        }
+        // Remove the old row names
+        while (this.rowDiv.firstChild)
+        {
+            this.rowDiv.firstChild.remove();
         }
 
         // Clear the cell divs arrays
@@ -288,7 +295,7 @@ export class GUIView
         }
 
         // Create the row names
-        this.patDiv.appendChild(makeRowNames());
+        this.rowDiv.appendChild(makeRowNames());
 
         // For each bar
         for (var barIdx = 0; barIdx < numBars; ++barIdx)

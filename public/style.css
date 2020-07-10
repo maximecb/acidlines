@@ -146,9 +146,21 @@ div.tabcontent
     /*border: 2px solid white;*/
 }
 
-#pat_div {
-    width: 680px;
+#grid_cont
+{
+    display: flex;
+    justify-content: center;
     margin: 12px auto;
+}
+
+#row_names_div {
+    display: inline-block;
+    padding: 2px;
+}
+
+#pat_div {
+    display: inline-block;
+    width: 680px;
     border: 1px solid #555;
     padding: 2px;
     overflow-x: scroll;
@@ -204,11 +216,6 @@ div.patsel_btn_queue
     margin-right: 2;
 }
 
-
-
-
-
-
 div.row_name_cont
 {
     display: flex;
@@ -217,8 +224,6 @@ div.row_name_cont
     justify-content: flex-end;
 
     height: 18px;
-
-    /*background: red;*/
 }
 
 div.row_name_text
